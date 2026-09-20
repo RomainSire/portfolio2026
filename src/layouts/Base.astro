@@ -1,0 +1,122 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Seo from "../components/Seo.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	rawTitle?: boolean;
+	/** Nuit par défaut. La bascule en galerie est une rupture franche. */
+	registre?: "nuit" | "galerie";
+}
+const { title, description, rawTitle = false, registre = "nuit" } = Astro.props;
+
+/* Le chrome du navigateur suit le registre : une barre d'adresse encre
+   au-dessus d'une page washi se lit comme un défaut d'affichage. */
+const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
+---
+
+<!doctype html>
+<html lang="fr" data-registre={registre}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<Seo title={title} description={description} rawTitle={rawTitle} />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="sitemap" type="application/xml" title="Plan du site" href="/sitemap-index.xml" />
+		<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin />
+		<meta name="theme-color" content={chrome} />
+		<ClientRouter />
+		<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
+	</head>
+	<body>
+		<a href="#contenu" class="skip">Aller au contenu</a>
+		<Header />
+		<main id="contenu">
+			<slot />
+		</main>
+		<Footer />
+
+		<script is:inline>
+			// Le site navigue en client : tout ce qui suit doit être rejouable à
+			// chaque page. Le sceau se restaure avant le premier rendu de la
+			// nouvelle page (astro:after-swap) pour ne pas se retracer ; le reste
+			// attend astro:page-load.
+			(function () {
+				const d = document,
+					r = d.documentElement;
+
+				// Tracé du monogramme : une fois par session. ADR-0002.
+				function sceau() {
+					try {
+						if (sessionStorage.getItem("seal")) r.setAttribute("data-seal", "done");
+						else sessionStorage.setItem("seal", "1");
+					} catch (e) {}
+				}
+
+				// Révélation : ce qui apparaît entre par un déplacement, jamais par un
+				// simple fondu. Rien au-delà de 320 ms, aucun rebond. (global.css)
+				function reveler() {
+					const els = d.querySelectorAll("[data-reveal]");
+					if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+						for (let i = 0; i < els.length; i++) els[i].classList.add("is-in");
+						return;
+					}
+					const io = new IntersectionObserver(
+						function (es) {
+							for (let i = 0; i < es.length; i++)
+								if (es[i].isIntersecting) {
+									es[i].target.classList.add("is-in");
+									io.unobserve(es[i].target);
+								}
+						},
+						{ rootMargin: "0px 0px -12% 0px", threshold: 0.05 },
+					);
+					for (let i = 0; i < els.length; i++) io.observe(els[i]);
+				}
+
+				// L'adresse n'est pas écrite en clair dans le HTML servi.
+				function courriel() {
+					const as = d.querySelectorAll("a.mail");
+					for (let i = 0; i < as.length; i++) {
+						const a = as[i],
+							v = a.dataset.user + "@" + a.dataset.host;
+						a.href = "mailto:" + v;
+						a.textContent = v;
+					}
+				}
+
+				sceau();
+				if (!window.__rs) {
+					window.__rs = 1;
+					d.addEventListener("astro:after-swap", sceau);
+					d.addEventListener("astro:page-load", function () {
+						reveler();
+						courriel();
+					});
+				}
+			})();
+		</script>
+
+		<style is:global>
+			.skip {
+				position: absolute;
+				left: -9999px;
+				top: 0;
+				background: var(--bg-raised);
+				color: var(--fg);
+				padding: 10px 16px;
+				z-index: 99;
+				border-radius: var(--r-control) 0 var(--r-control) 0;
+			}
+			.skip:focus {
+				left: var(--margin);
+				top: 10px;
+			}
+		</style>
+	</body>
+</html>

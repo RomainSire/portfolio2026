@@ -1,0 +1,86 @@
+---
+import Monogram from "./Monogram.astro";
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const nav = [
+	{ href: "/", label: "Travaux" },
+	{ href: "/a-propos", label: "À propos" },
+	{ href: "/contact", label: "Contact" },
+];
+const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+---
+
+<header class="head">
+	<div class="shell row">
+		<a href="/" class="brand" aria-label="Romain Siré — accueil">
+			<Monogram size={26} />
+			<span class="name">Romain Siré</span>
+		</a>
+		<nav aria-label="Principale">
+			<ul class="chrome links">
+				{
+					nav.map((n) => (
+						<li>
+							<a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>
+								{n.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+	<hr class="rule" />
+</header>
+
+<style>
+	.head {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: color-mix(in srgb, var(--bg) 88%, transparent);
+		backdrop-filter: blur(10px);
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--gutter);
+		min-height: 64px;
+	}
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		text-decoration: none;
+	}
+	.brand:hover {
+		color: inherit;
+	}
+	.name {
+		font-size: var(--t-caption);
+		font-weight: 500;
+		letter-spacing: 0.01em;
+	}
+	.links {
+		display: flex;
+		gap: clamp(16px, 3vw, 32px);
+	}
+	.links a {
+		text-decoration: none;
+		padding-block: 4px;
+		border-bottom: var(--hair) solid transparent;
+		transition:
+			color var(--dur-fast) var(--ease),
+			border-color var(--dur-fast) var(--ease);
+	}
+	.links a:hover,
+	.links a[aria-current="page"] {
+		color: var(--fg);
+		border-bottom-color: var(--rule-strong);
+	}
+	@media (max-width: 420px) {
+		.name {
+			display: none;
+		}
+	}
+</style>

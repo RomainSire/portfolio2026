@@ -1,0 +1,79 @@
+---
+import Monogram from "./Monogram.astro";
+const year = new Date().getFullYear();
+const mail = ["romainsirepro", "gmail.com"];
+---
+
+<footer class="foot">
+	<hr class="rule" />
+	<div class="shell grid">
+		<div class="col">
+			<p class="chrome">Écrire</p>
+			<p>
+				<a class="mail" data-user={mail[0]} data-host={mail[1]} href="#" rel="nofollow">
+					{mail[0]}<span aria-hidden="true"> [arobase] </span>{mail[1]}
+				</a>
+			</p>
+		</div>
+		<div class="col">
+			<p class="chrome">Ailleurs</p>
+			<ul>
+				<li><a href="https://www.linkedin.com/in/romainsire" rel="me noopener">LinkedIn</a></li>
+				<li><a href="https://github.com/RomainSire" rel="me noopener">GitHub</a></li>
+			</ul>
+		</div>
+		<div class="col">
+			<p class="chrome">Légal</p>
+			<ul>
+				<li><a href="/mentions-legales">Mentions légales</a></li>
+				<li><a href="/cgv">CGV</a></li>
+				<li><a href="/confidentialite">Confidentialité</a></li>
+			</ul>
+		</div>
+		<div class="col sign">
+			<Monogram size={22} class="decor" />
+			<p class="chrome">
+				Romain Siré · {year}<span class="shu" aria-hidden="true"></span>
+			</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.foot {
+		margin-top: calc(var(--unit) * 14);
+		padding-bottom: calc(var(--unit) * 6);
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+		gap: var(--gutter);
+		padding-top: calc(var(--unit) * 4);
+	}
+	.col > .chrome {
+		margin-bottom: 10px;
+	}
+	.col li + li {
+		margin-top: 4px;
+	}
+	.col a {
+		text-decoration: none;
+		border-bottom: var(--hair) solid var(--rule);
+	}
+	.col a:hover {
+		border-bottom-color: currentColor;
+	}
+	.sign {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: flex-start;
+		color: var(--fg-muted);
+	}
+	@media (min-width: 900px) {
+		.sign {
+			align-items: flex-end;
+			text-align: right;
+		}
+	}
+</style>

@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 /**
@@ -23,7 +24,7 @@ const travaux = defineCollection({
 			resultat: z.string(),
 			stack: z.array(z.string()),
 			liens: z
-				.array(z.object({ label: z.string(), url: z.string().url().or(z.literal("")), note: z.string().optional() }))
+				.array(z.object({ label: z.string(), url: z.url().or(z.literal("")), note: z.string().optional() }))
 				.default([]),
 			visuel: image().optional(),
 			visuelAlt: z.string().optional(),

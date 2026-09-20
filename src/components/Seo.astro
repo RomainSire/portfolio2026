@@ -7,7 +7,10 @@ interface Props {
 }
 const { title, description, rawTitle = false } = Astro.props;
 const full = rawTitle ? title : `${title} · Romain Siré`;
-const url = new URL(Astro.url.pathname, Astro.site);
+// Depuis Astro 6, `build.format: "file"` fait pointer le chemin de la home
+// sur /index.html. L'adresse canonique reste la racine.
+const chemin = Astro.url.pathname.replace(/\/index\.html$/, "/");
+const url = new URL(chemin, Astro.site);
 const og = new URL("/og.png", Astro.site);
 ---
 

@@ -1,0 +1,156 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Absent from "./Absent.astro";
+
+interface Props {
+	entry: CollectionEntry<"travaux">;
+	index: number;
+}
+const { entry, index } = Astro.props;
+const d = entry.data;
+const num = String(index).padStart(2, "0");
+---
+
+<article class="row" data-reveal style={`--reveal-delay:${Math.min(index - 1, 4) * 60}ms`}>
+	<a href={`/travaux/${entry.id}`} class="hit">
+		<span class="sr">{d.titre}</span>
+	</a>
+
+	<div class="meta chrome">
+		<span class="num">{num}</span>
+		<span>{d.nature}</span>
+		<span>{d.periode}</span>
+	</div>
+
+	<div class="body">
+		<h2 class="title">{d.titre}</h2>
+		<p class="secteur chrome">{d.secteur}</p>
+		<p class="accroche measure">{d.accroche}</p>
+		<ul class="stack chrome">
+			{d.stack.map((s) => <li>{s}</li>)}
+		</ul>
+	</div>
+
+	<div class="visual">
+		{
+			d.visuel ? (
+				<Image src={d.visuel} alt={d.visuelAlt ?? d.titre} widths={[380, 760]} sizes="(max-width: 860px) 90vw, 380px" class="shot diag" loading={index <= 2 ? "eager" : "lazy"} />
+			) : (
+				<Absent raison={d.sansVisuel ?? "Capture à venir."} stack={d.stack} />
+			)
+		}
+	</div>
+</article>
+
+<style>
+	.row {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--gutter);
+		padding-block: calc(var(--unit) * 5);
+		border-top: var(--hair) solid var(--rule);
+		transition: border-color var(--dur-base) var(--ease);
+	}
+	@media (min-width: 860px) {
+		.row {
+			grid-template-columns: 140px minmax(0, 1fr) 380px;
+			align-items: start;
+			gap: calc(var(--gutter) * 1.5);
+		}
+	}
+	.row:hover {
+		border-top-color: var(--rule-strong);
+	}
+
+	/* Cible unique : toute la ligne est cliquable, sans imbriquer de lien. */
+	.hit {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+	}
+	.sr {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.meta {
+		display: flex;
+		gap: 14px;
+		flex-wrap: wrap;
+	}
+	@media (min-width: 860px) {
+		.meta {
+			flex-direction: column;
+			gap: 6px;
+		}
+	}
+	.num {
+		color: var(--fg);
+	}
+
+	.title {
+		font-size: var(--t-page);
+		margin-bottom: 6px;
+		transition: transform var(--dur-base) var(--ease);
+	}
+	.row:hover .title {
+		transform: translateX(6px);
+	}
+	.secteur {
+		margin-bottom: 14px;
+	}
+	.accroche {
+		color: var(--fg-muted);
+		margin-bottom: 18px;
+	}
+	.stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.stack li {
+		border: var(--hair) solid var(--rule);
+		padding: 5px 10px;
+		border-radius: var(--r-control) 0 var(--r-control) 0;
+	}
+
+	.visual {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 16 / 10;
+		border-radius: var(--r-panel) 0 var(--r-panel) 0;
+	}
+	/* Une capture claire crèverait le registre. Le voile se lève au survol :
+	   l'image se donne à celui qui la regarde, pas à celui qui passe. */
+	.visual:has(.shot)::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: var(--bg);
+		opacity: 0.22;
+		pointer-events: none;
+		transition: opacity var(--dur-slow) var(--ease);
+	}
+	.row:hover .visual::after {
+		opacity: 0;
+	}
+	.shot {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		filter: saturate(0.82) contrast(1.02);
+		transition:
+			transform var(--dur-slow) var(--ease),
+			filter var(--dur-slow) var(--ease);
+	}
+	.row:hover .shot {
+		transform: scale(1.02);
+		filter: saturate(1) contrast(1.02);
+	}
+</style>

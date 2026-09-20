@@ -1,0 +1,310 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Absent from "../../components/Absent.astro";
+
+export async function getStaticPaths() {
+	const all = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b.data.ordre);
+	return all.map((entry, i) => ({
+		params: { id: entry.id },
+		props: { entry, prev: all[i - 1], next: all[i + 1] },
+	}));
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+
+<Base title={d.titre} description={d.accroche}>
+	<article>
+		<header class="shell top">
+			<p class="chrome crumbs">
+				<a href="/">Travaux</a> <span aria-hidden="true">/</span>
+				<span>{d.nature}</span>
+			</p>
+			<h1 data-reveal>{d.titre}</h1>
+			<p class="lead measure accroche" data-reveal style="--reveal-delay:60ms">{d.accroche}</p>
+
+			<dl class="fiche chrome" data-reveal style="--reveal-delay:120ms">
+				<div><dt>Organisation</dt><dd>{d.organisation}</dd></div>
+				<div><dt>Secteur</dt><dd>{d.secteur}</dd></div>
+				<div><dt>Période</dt><dd>{d.periode}</dd></div>
+				<div><dt>Nature</dt><dd>{d.nature}</dd></div>
+			</dl>
+		</header>
+
+		<figure class="shell media" data-reveal>
+			{
+				d.visuel ? (
+					<Image src={d.visuel} alt={d.visuelAlt ?? d.titre} widths={[720, 1180]} sizes="(max-width: 1180px) 92vw, 1100px" class="shot" />
+				) : (
+					<Absent raison={d.sansVisuel ?? "Capture à venir."} stack={d.stack} grand />
+				)
+			}
+		</figure>
+
+		<div class="shell prose">
+			<section class="bloc" data-reveal>
+				<div class="intro measure"><Content /></div>
+			</section>
+
+			<section class="bloc" data-reveal>
+				<h2 class="chrome lbl">Rôle</h2>
+				<p class="measure">{d.role}</p>
+			</section>
+
+			<section class="bloc" data-reveal>
+				<h2 class="chrome lbl">La contrainte</h2>
+				<ol class="items">
+					{
+						d.contraintes.map((c, i) => (
+							<li>
+								<span class="idx chrome">{String(i + 1).padStart(2, "0")}</span>
+								<h3>{c.titre}</h3>
+								<p class="measure">{c.texte}</p>
+							</li>
+						))
+					}
+				</ol>
+			</section>
+
+			<section class="bloc" data-reveal>
+				<h2 class="chrome lbl">Décisions</h2>
+				<ol class="items">
+					{
+						d.decisions.map((c, i) => (
+							<li>
+								<span class="idx chrome">{String(i + 1).padStart(2, "0")}</span>
+								<h3>{c.titre}</h3>
+								<p class="measure">{c.texte}</p>
+							</li>
+						))
+					}
+				</ol>
+			</section>
+
+			<section class="bloc" data-reveal>
+				<h2 class="chrome lbl">Résultat</h2>
+				<p class="measure">{d.resultat}</p>
+			</section>
+
+			<section class="bloc tech" data-reveal>
+				<div>
+					<h2 class="chrome lbl">Technique</h2>
+					<ul class="stack chrome">{d.stack.map((s) => <li>{s}</li>)}</ul>
+				</div>
+				{
+					d.liens.length > 0 && (
+						<div>
+							<h2 class="chrome lbl">Liens</h2>
+							<ul class="liens">
+								{d.liens.map((l) => (
+									<li>
+										{l.url ? (
+											<a href={l.url} rel="noopener">
+												{l.label}
+											</a>
+										) : (
+											<span class="off">{l.label}</span>
+										)}
+										{l.note && <span class="note caption"> — {l.note}</span>}
+									</li>
+								))}
+							</ul>
+						</div>
+					)
+				}
+			</section>
+		</div>
+
+		<nav class="shell pager" aria-label="Autres travaux">
+			<hr class="rule" />
+			<div class="pair">
+				{
+					prev ? (
+						<a href={`/travaux/${prev.id}`} class="pg">
+							<span class="chrome">Précédent</span>
+							<span class="pt">{prev.data.titre}</span>
+						</a>
+					) : (
+						<span />
+					)
+				}
+				{
+					next && (
+						<a href={`/travaux/${next.id}`} class="pg right">
+							<span class="chrome">Suivant</span>
+							<span class="pt">{next.data.titre}</span>
+						</a>
+					)
+				}
+			</div>
+		</nav>
+	</article>
+</Base>
+
+<style>
+	.top {
+		padding-block: clamp(36px, 7vw, 72px) clamp(24px, 4vw, 40px);
+	}
+	.crumbs {
+		margin-bottom: 20px;
+		display: flex;
+		gap: 8px;
+	}
+	.crumbs a {
+		text-decoration: none;
+		border-bottom: var(--hair) solid var(--rule);
+	}
+	h1 {
+		font-size: var(--t-page);
+		margin-bottom: 16px;
+	}
+	.accroche {
+		color: var(--fg-muted);
+	}
+	.fiche {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: var(--gutter);
+		margin-top: 36px;
+		padding-top: 20px;
+		border-top: var(--hair) solid var(--rule);
+	}
+	.fiche dt {
+		color: var(--fg-muted);
+		margin-bottom: 6px;
+	}
+	.fiche dd {
+		color: var(--fg);
+		margin: 0;
+		text-transform: none;
+		letter-spacing: 0;
+		font-size: var(--t-caption);
+	}
+
+	.media {
+		margin-block: clamp(24px, 4vw, 48px);
+	}
+	.media {
+		position: relative;
+	}
+	.shot {
+		width: 100%;
+		height: auto;
+		border-radius: var(--r-panel) 0 var(--r-panel) 0;
+		filter: saturate(0.85) contrast(1.02);
+	}
+	.media:has(.shot)::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: var(--bg);
+		opacity: 0.12;
+		border-radius: var(--r-panel) 0 var(--r-panel) 0;
+		pointer-events: none;
+	}
+
+	.prose {
+		padding-bottom: 24px;
+	}
+	.bloc {
+		padding-block: clamp(28px, 5vw, 52px);
+		border-top: var(--hair) solid var(--rule);
+	}
+	.bloc:first-child {
+		border-top: 0;
+		padding-top: 0;
+	}
+	.lbl {
+		margin-bottom: 22px;
+	}
+	.intro :global(p) + :global(p) {
+		margin-top: 1em;
+	}
+
+	.items {
+		display: grid;
+		gap: clamp(24px, 4vw, 40px);
+	}
+	.items li {
+		display: grid;
+		gap: 8px;
+	}
+	@media (min-width: 760px) {
+		.items li {
+			grid-template-columns: 56px minmax(0, 1fr);
+			column-gap: var(--gutter);
+		}
+		.idx {
+			grid-row: 1 / span 2;
+			padding-top: 6px;
+		}
+	}
+	.items h3 {
+		font-weight: 500;
+	}
+	.items p {
+		color: var(--fg-muted);
+	}
+
+	.tech {
+		display: grid;
+		gap: clamp(24px, 4vw, 48px);
+	}
+	@media (min-width: 760px) {
+		.tech {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.stack li {
+		border: var(--hair) solid var(--rule);
+		padding: 5px 10px;
+		border-radius: var(--r-control) 0 var(--r-control) 0;
+	}
+	.liens li + li {
+		margin-top: 8px;
+	}
+	.off {
+		color: var(--fg-muted);
+	}
+	.note {
+		color: var(--fg-muted);
+	}
+
+	.pager {
+		padding-bottom: 8px;
+	}
+	.pair {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--gutter);
+		padding-top: 24px;
+	}
+	.pg {
+		display: grid;
+		gap: 6px;
+		text-decoration: none;
+	}
+	.pg.right {
+		text-align: right;
+	}
+	.pt {
+		font-size: var(--t-lead);
+		font-weight: 500;
+		transition: transform var(--dur-base) var(--ease);
+	}
+	.pg:hover .pt {
+		transform: translateX(-4px);
+	}
+	.pg.right:hover .pt {
+		transform: translateX(4px);
+	}
+</style>

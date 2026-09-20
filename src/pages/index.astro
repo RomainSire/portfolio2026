@@ -1,0 +1,81 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Monogram from "../components/Monogram.astro";
+import WorkRow from "../components/WorkRow.astro";
+
+const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+
+<Base
+	title="Romain Siré — Développeur indépendant, secteur de l'énergie"
+	rawTitle
+	description="Développeur indépendant (freelance). Autoconsommation collective, photovoltaïque, télésurveillance médicale. TypeScript, React, Astro."
+>
+	<section class="hero shell">
+		<Monogram size={84} seal class="mark" />
+		<h1 class="display">
+			Développeur indépendant.<br />
+			Dix ans d'ingénierie dans l'énergie<span class="shu" aria-hidden="true"></span>
+		</h1>
+		<p class="lead measure sub">
+			Je construis des interfaces pour des produits où une erreur ne se règle pas par un ticket : plateformes
+			d'autoconsommation collective, télésurveillance médicale, sites d'installateurs photovoltaïques.
+		</p>
+		<p class="chrome avail">
+			En mission chez Notrelec · Toulouse et à distance
+		</p>
+	</section>
+
+	<section class="shell travaux" aria-labelledby="t-titre">
+		<div class="head">
+			<h2 id="t-titre" class="chrome">Travaux</h2>
+			<p class="chrome count">{travaux.length} — peu de travaux, mais menés loin</p>
+		</div>
+		{travaux.map((e, i) => <WorkRow entry={e} index={i + 1} />)}
+		<hr class="rule" />
+	</section>
+</Base>
+
+<style>
+	.hero {
+		padding-block: clamp(56px, 11vw, 128px) clamp(48px, 9vw, 96px);
+	}
+	.mark {
+		display: block;
+		margin-bottom: clamp(36px, 6vw, 52px);
+	}
+	.display {
+		font-size: var(--t-display);
+		line-height: var(--lh-tight);
+		letter-spacing: var(--tr-tight);
+		font-weight: 500;
+		margin-bottom: 28px;
+	}
+	.sub {
+		color: var(--fg-muted);
+		margin-bottom: 32px;
+	}
+	.avail {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		border: var(--hair) solid var(--rule);
+		padding: 8px 14px;
+		border-radius: var(--r-control) 0 var(--r-control) 0;
+	}
+	.travaux {
+		padding-bottom: calc(var(--unit) * 4);
+	}
+	.head {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--gutter);
+		flex-wrap: wrap;
+		margin-bottom: 18px;
+	}
+	.count {
+		text-transform: none;
+		letter-spacing: 0;
+	}
+</style>

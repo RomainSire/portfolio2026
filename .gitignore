@@ -12,3 +12,5 @@ dist/
 .env.*
 !.env.example
 NOTES.md
+# La charte graphique v1.0 vit hors du dépôt.
+*.pdf

@@ -4,7 +4,7 @@ Portfolio de Romain Siré. Site statique Astro.
 
 - **Vocabulaire du projet** : [`CONTEXT.md`](./CONTEXT.md)
 - **Décisions gravées** : [`docs/adr/`](./docs/adr/)
-- **Charte d'origine** : `sori-charte-graphique.pdf` (le nom « sori » est abandonné, le système formel est conservé — voir ADR-0001)
+- **Système formel** : hérité d'une charte graphique tenue hors dépôt. Son nom, « sori », est abandonné ; ses règles sont conservées — voir [ADR-0001](./docs/adr/0001-systeme-formel-sans-le-nom-sori.md)
 
 ## Développer
 

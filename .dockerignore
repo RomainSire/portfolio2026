@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.git
+.github
+*.pdf
+.scratch
+docs
+NOTES.md

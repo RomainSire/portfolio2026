@@ -1,0 +1,31 @@
+# Premier jet. Le VPS est administré par ailleurs : adapter le nom du réseau
+# Traefik, le résolveur ACME et le domaine avant la première mise en ligne.
+services:
+  site:
+    image: ghcr.io/romainsire/portfolio202609:latest
+    container_name: romainsire-site
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS -------------------------------------------------------------
+      - "traefik.http.routers.rs-site.rule=Host(`romainsire.com`) || Host(`www.romainsire.com`)"
+      - "traefik.http.routers.rs-site.entrypoints=websecure"
+      - "traefik.http.routers.rs-site.tls=true"
+      - "traefik.http.routers.rs-site.tls.certresolver=letsencrypt"
+      - "traefik.http.services.rs-site.loadbalancer.server.port=80"
+      # --- www -> apex -------------------------------------------------------
+      - "traefik.http.middlewares.rs-www.redirectregex.regex=^https://www\\.romainsire\\.com/(.*)"
+      - "traefik.http.middlewares.rs-www.redirectregex.replacement=https://romainsire.com/$${1}"
+      - "traefik.http.middlewares.rs-www.redirectregex.permanent=true"
+      # --- HSTS --------------------------------------------------------------
+      - "traefik.http.middlewares.rs-hsts.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.rs-hsts.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.rs-hsts.headers.stsPreload=true"
+      - "traefik.http.routers.rs-site.middlewares=rs-www,rs-hsts"
+
+networks:
+  traefik:
+    external: true
+    # name: <nom réel du réseau Traefik sur le VPS>

@@ -1,0 +1,14 @@
+node_modules/
+
+# pnpm est le seul gestionnaire : un autre lock ne doit jamais être commité.
+package-lock.json
+yarn.lock
+
+dist/
+.astro/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+NOTES.md

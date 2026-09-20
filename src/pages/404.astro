@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import Monogram from "../components/Monogram.astro";
+---
+
+<Base title="Page introuvable" description="Cette adresse ne correspond à aucune page de ce site.">
+	<section class="shell wrap">
+		<Monogram size={64} class="decor" />
+		<p class="chrome code">Erreur 404</p>
+		<h1>Cette adresse ne mène nulle part<span class="shu" aria-hidden="true"></span></h1>
+		<p class="lead measure sub">
+			La page a peut-être été déplacée, ou l'adresse comporte une faute. Les travaux sont tous listés sur la page
+			d'accueil.
+		</p>
+		<p><a class="back" href="/">Revenir aux travaux</a></p>
+	</section>
+</Base>
+
+<style>
+	.wrap {
+		padding-block: clamp(48px, 10vw, 112px) clamp(56px, 11vw, 128px);
+		display: grid;
+		gap: 20px;
+		justify-items: start;
+	}
+	.code {
+		margin-top: 12px;
+	}
+	h1 {
+		font-size: var(--t-page);
+	}
+	.sub {
+		color: var(--fg-muted);
+	}
+	.back {
+		display: inline-block;
+		margin-top: 8px;
+		border: var(--hair) solid var(--rule-strong);
+		padding: 11px 18px;
+		border-radius: var(--r-control) 0 var(--r-control) 0;
+		text-decoration: none;
+		transition:
+			background-color var(--dur-fast) var(--ease),
+			color var(--dur-fast) var(--ease);
+	}
+	.back:hover {
+		background: var(--fg);
+		color: var(--bg);
+	}
+</style>

@@ -1,0 +1,94 @@
+---
+import Base from "../layouts/Base.astro";
+const user = "romainsirepro";
+const host = "gmail.com";
+---
+
+<Base
+	title="Contact"
+	registre="galerie"
+	description="Écrire à Romain Siré, développeur indépendant. Par email ou sur LinkedIn."
+>
+	<section class="shell wrap">
+		<p class="chrome">Contact</p>
+		<h1 data-reveal>Un projet, une mission,<br />ou juste une question.</h1>
+		<p class="lead measure sub" data-reveal style="--reveal-delay:60ms">
+			Le plus utile, dans un premier message : sur quoi vous travaillez, et ce qui bloque.
+		</p>
+
+		<ul class="ways" data-reveal style="--reveal-delay:120ms">
+			<li class="way">
+				<span class="chrome">Écrire</span>
+				<a class="big mail" data-user={user} data-host={host} href="#" rel="nofollow">
+					{user}<span aria-hidden="true"> [arobase] </span>{host}
+				</a>
+			</li>
+			<li class="way">
+				<span class="chrome">LinkedIn</span>
+				<a class="big" href="https://www.linkedin.com/in/romainsire" rel="me noopener">in/romainsire</a>
+			</li>
+			<li class="way">
+				<span class="chrome">GitHub</span>
+				<a class="big" href="https://github.com/RomainSire" rel="me noopener">RomainSire</a>
+			</li>
+		</ul>
+
+		<p class="caption note" data-reveal>
+			Ce site ne dépose aucun cookie, ne mesure pas son audience et ne collecte aucune donnée personnelle.
+			Voir la <a href="/confidentialite">page confidentialité</a>.
+		</p>
+	</section>
+</Base>
+
+<style>
+	.wrap {
+		padding-block: clamp(36px, 7vw, 72px) clamp(40px, 8vw, 96px);
+	}
+	.wrap > .chrome {
+		margin-bottom: 20px;
+	}
+	h1 {
+		font-size: var(--t-page);
+		margin-bottom: 18px;
+	}
+	.sub {
+		color: var(--fg-muted);
+	}
+	.ways {
+		margin-top: clamp(32px, 6vw, 56px);
+		display: grid;
+		gap: 0;
+	}
+	.way {
+		display: grid;
+		gap: 8px;
+		padding-block: 22px;
+		border-top: var(--hair) solid var(--rule);
+	}
+	@media (min-width: 640px) {
+		.way {
+			grid-template-columns: 120px minmax(0, 1fr);
+			align-items: baseline;
+			gap: var(--gutter);
+		}
+	}
+	.way:last-child {
+		border-bottom: var(--hair) solid var(--rule);
+	}
+	.big {
+		font-size: var(--t-lead);
+		text-decoration: none;
+		border-bottom: var(--hair) solid var(--rule);
+		justify-self: start;
+		word-break: break-word;
+		transition:
+			color var(--dur-fast) var(--ease),
+			border-color var(--dur-fast) var(--ease);
+	}
+	.big:hover {
+		border-bottom-color: currentColor;
+	}
+	.note {
+		margin-top: 32px;
+	}
+</style>

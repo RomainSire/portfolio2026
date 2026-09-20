@@ -1,0 +1,96 @@
+/* ---------------------------------------------------------------------------
+   Jetons du système formel.
+   Hérité de la charte v1.0 : règle droit + arc, rayon diagonal, palette, une
+   seule courbe d'accélération. Voir docs/adr/0001.
+   --------------------------------------------------------------------------- */
+
+:root {
+	/* --- Palette brute ---------------------------------------------------- */
+	--ink: #0b0d0e;
+	--steel: #2a2e30;
+	--ash: #767b7d;
+	--ash-deep: #656a6c; /* ajout : cendre lisible sur washi (4,86:1) */
+	--kasumi: #c9c6be;
+	--washi: #f4f1ea;
+	--hamon: #8fa8b2;
+	--hamon-deep: #455c66; /* ajout : hamon lisible sur washi (6,26:1) */
+	--shu: #c8402a;
+	--shu-tx: #a33320;
+
+	/* --- Registre NUIT (défaut) ------------------------------------------- */
+	--bg: var(--ink);
+	--bg-raised: var(--steel);
+	--fg: var(--washi);
+	--fg-muted: var(--ash);
+	--rule: color-mix(in srgb, var(--kasumi) 20%, transparent);
+	--rule-strong: var(--steel);
+	--link: var(--hamon);
+	--seal: var(--shu);
+	--selection: color-mix(in srgb, var(--hamon) 28%, transparent);
+
+	/* --- Typographie ------------------------------------------------------ */
+	--sans: Geist, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* Échelle tierce majeure (1,25). Les deux plus grands corps sont fluides. */
+	--t-chrome: 0.6875rem; /* 11px — mono, labels, numéros */
+	--t-caption: 0.8125rem; /* 13px — légende, métadonnée */
+	--t-body: 0.9375rem; /* 15px — corps */
+	--t-lead: 1.1875rem; /* 19px — sous-titre */
+	--t-section: clamp(1.375rem, 1.1rem + 1.2vw, 1.625rem); /* 26px */
+	--t-page: clamp(1.75rem, 1.05rem + 3.4vw, 2.75rem); /* 44px */
+	--t-display: clamp(2.25rem, 1rem + 6vw, 4.5rem); /* hors échelle : hero */
+
+	/* Interlettrage : −0,04em au-delà de 26px, 0 en dessous,
+	   +0,14em sur les capitales monospace. */
+	--tr-tight: -0.04em;
+	--tr-caps: 0.14em;
+
+	--lh-tight: 1.08;
+	--lh-title: 1.16;
+	--lh-body: 1.6;
+
+	/* --- Grille ----------------------------------------------------------- */
+	--unit: 8px;
+	--gutter: 24px;
+	--margin: clamp(20px, 5vw, 40px);
+	--measure: 68ch;
+	--hair: 0.5px;
+	--page-max: 1180px;
+
+	/* --- Rayon diagonal ---------------------------------------------------
+	   Un seul rayon, appliqué en diagonale : supérieur gauche + inférieur
+	   droit arrondis, les deux autres à angle vif. L'asymétrie est la
+	   signature — quatre coins identiques sont interdits. */
+	--r-control: 8px;
+	--r-panel: 16px;
+
+	/* --- Mouvement --------------------------------------------------------
+	   Une seule courbe dans tout le produit : attaque franche, sortie courbe. */
+	--ease: cubic-bezier(0.2, 0, 0, 1);
+	--dur-fast: 120ms; /* survol, focus */
+	--dur-base: 200ms; /* panneau, onglet */
+	--dur-slow: 320ms; /* page, révélation */
+	--dur-seal: 900ms; /* EXCEPTION UNIQUE — tracé du monogramme. ADR-0002. */
+}
+
+/* --- Registre GALERIE -----------------------------------------------------
+   Rupture franche, jamais un dégradé progressif au scroll. */
+[data-registre="galerie"] {
+	--bg: var(--washi);
+	--bg-raised: #fffdf8;
+	--fg: var(--ink);
+	--fg-muted: var(--ash-deep);
+	--rule: var(--kasumi);
+	--rule-strong: var(--ash);
+	--link: var(--hamon-deep);
+	--seal: var(--shu-tx);
+	--selection: color-mix(in srgb, var(--hamon-deep) 22%, transparent);
+}
+
+.diag {
+	border-radius: var(--r-panel) 0 var(--r-panel) 0;
+}
+.diag-sm {
+	border-radius: var(--r-control) 0 var(--r-control) 0;
+}

@@ -8,7 +8,7 @@ accroche: "Une application de télésurveillance médicale, et un socle techniqu
 role: >-
   Développement front, au sein d'une équipe Scrum de dix personnes. En CDI,
   puis en freelance. Nouvelles fonctionnalités, maintenance, tests, et le
-  chantier de migration du code historique vers React.
+  chantier de migration du code historique vers TypeScript, puis vers React.
 ordre: 3
 sansVisuel: "Application médicale — captures non diffusables."
 stack: ["TypeScript", "React", "SASS", "JSX"]

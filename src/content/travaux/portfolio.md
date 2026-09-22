@@ -11,7 +11,7 @@ visuelAlt: "Page d'accueil de ce site."
 sansVisuel: "Vous la regardez."
 stack: ["Astro", "TypeScript", "CSS", "Docker", "nginx"]
 contraintes:
-  - titre: "Le précédent avait vieilli en deux ans"
+  - titre: "Le précédent portfolio avait vieilli en deux ans"
     texte: >-
       Il était en néo-brutalisme. Le style était juste au moment où je l'ai
       choisi, et daté peu après. Refaire un site à la mode du moment, c'est

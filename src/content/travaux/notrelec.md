@@ -6,7 +6,7 @@ secteur: "Énergie — autoconsommation collective"
 periode: "Depuis 2024"
 accroche: "La plateforme qui monte et administre des communautés d'autoconsommation d'énergie renouvelable."
 role: >-
-  Développement front, en régie, au sein d'une petite équipe. Une dizaine de
+  Développement front, en régie, au sein d'une petite équipe. Quelques
   contributions côté back. Design d'interface, déploiement, formation
   d'alternants.
 ordre: 1

@@ -20,7 +20,7 @@ contraintes:
       leur agencement. Ce sont des ingénieurs : pas des développeurs, mais pas
       non plus des gens qu'on cantonne à un formulaire de saisie. Le curseur
       était à placer entre deux murs : un outil qui verrouille la mise en page
-      les bloquait, un outil qui demande d'ouvrir un fichier les bloquait
+      les bloquait, un outil qui demande d'ouvrir un fichier de code les bloquait
       aussi. La cible n'était pas « un site facile à mettre à jour », c'était
       « un site dont je ne suis plus le passage obligé ».
   - titre: "L'hébergement était choisi avant moi"

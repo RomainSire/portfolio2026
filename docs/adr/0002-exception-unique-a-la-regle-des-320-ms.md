@@ -19,6 +19,12 @@ les jetons de durée plafonnent à 320 ms doit pouvoir constater que c'est
 délibéré, et non une négligence : `--dur-seal` porte le commentaire et renvoie
 ici. Toute autre durée supérieure à 320 ms est un bug.
 
+Le tracé passe par une **ligne médiane distincte du contour** : `monogram.svg`
+porte la silhouette du signe, `monogram-trace.svg` la ligne qui la parcourt. La
+seconde n'est jamais un trait visible — seulement un `stroke` dans un masque.
+Deux fichiers pour un signe, donc ; mais une dérive entre eux se constate
+immédiatement, puisque le masque cesse alors de couvrir.
+
 L'exception est cohérente avec la règle du shu, qui gouverne la couleur rouge
 de la même façon : elle ponctue, elle ne remplit pas. Une charte sans aucune
 exception n'a pas de sceau — mais une deuxième exception détruirait la

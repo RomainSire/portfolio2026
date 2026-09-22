@@ -6,17 +6,39 @@
  */
 interface Props {
 	size?: number;
-	/** Trace le signe au premier chargement. Exception unique. ADR-0002. */
+	/** Fait pousser le signe depuis ses deux germes, une fois par session. ADR-0002. */
 	seal?: boolean;
 	class?: string;
 }
 const { size = 32, seal = false, class: cls = "" } = Astro.props;
-const raw = (await import("../assets/monogram.svg?raw")).default;
-const inner = raw.replace(/<\/?svg[^>]*>/g, "");
+const strip = (svg: string) => svg.replace(/<!--[\s\S]*?-->/g, "").replace(/<\/?svg[^>]*>/g, "");
+const inner = strip((await import("../assets/monogram.svg?raw")).default);
+/** La médiane n'est chargée que pour le tracé : le header n'en a pas l'usage. */
+const pens = seal ? strip((await import("../assets/monogram-trace.svg?raw")).default) : "";
 ---
 
 <span class:list={["mono", cls, { seal }]} style={`--s:${size}px`} aria-hidden={cls.includes("decor")}>
-	<svg viewBox="0 0 125 110" fill="currentColor" fill-rule="evenodd" role="img" aria-label="Monogramme SR" set:html={inner} />
+	<svg viewBox="0 0 125 110" fill="currentColor" fill-rule="evenodd" role="img" aria-label="Monogramme SR">
+		{
+			seal && (
+				<defs>
+					<mask id="mono-trace" maskUnits="userSpaceOnUse" x="-20" y="-20" width="165" height="150">
+						<g
+							class="pens"
+							fill="none"
+							stroke="#fff"
+							stroke-width="20"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-dasharray="1 2"
+							set:html={pens}
+						/>
+					</mask>
+				</defs>
+			)
+		}
+		<g mask={seal ? "url(#mono-trace)" : undefined} set:html={inner} />
+	</svg>
 </span>
 
 <style>
@@ -31,28 +53,32 @@ const inner = raw.replace(/<\/?svg[^>]*>/g, "");
 		height: 100%;
 	}
 
-	/* Exception unique à la règle des 320 ms : le signe se révèle par un
-	   balayage en arc, une fois par session. Voir docs/adr/0002. */
-	.seal svg {
-		clip-path: inset(0 100% 0 0);
+	/* Exception unique à la règle des 320 ms : le signe pousse depuis ses deux
+	   germes vers ses extrémités, une fois par session. Voir docs/adr/0002.
+
+	   Le masque reste posé après coup — `data-seal` n'arrive qu'au chargement
+	   suivant — donc l'état final doit couvrir tout le glyphe. C'est le cas :
+	   `stroke-width: 20` sur la médiane couvre 100 % du signe. */
+	.seal .pens :global(path) {
+		stroke-dashoffset: 1;
 	}
-	:global(html[data-seal="done"]) .seal svg {
-		clip-path: none;
+	:global(html[data-seal="done"]) .seal .pens :global(path) {
+		stroke-dashoffset: 0;
 	}
-	:global(html:not([data-seal="done"])) .seal svg {
-		animation: seal var(--dur-seal) var(--ease) both;
+	:global(html:not([data-seal="done"])) .seal .pens :global(path) {
+		animation: trace var(--dur-seal) var(--ease) both;
 	}
-	@keyframes seal {
+	@keyframes trace {
 		from {
-			clip-path: inset(0 100% 0 0);
+			stroke-dashoffset: 1;
 		}
 		to {
-			clip-path: inset(0 0 0 0);
+			stroke-dashoffset: 0;
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.seal svg {
-			clip-path: none !important;
+		.seal .pens :global(path) {
+			stroke-dashoffset: 0 !important;
 			animation: none !important;
 		}
 	}

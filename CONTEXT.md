@@ -6,9 +6,24 @@ décision d'implémentation ici (celles-ci vont dans `docs/adr/`).
 ## Marque
 
 ### Monogramme
-Le signe **SR**, monoline, symétrique par rotation à 180°, construit
-uniquement de segments droits et d'arcs d'un rayon unique. C'est la seule
-marque figurative du site. Non négociable : il préexiste à cette charte.
+Le signe **SR**, monoline, construit uniquement de segments droits et d'arcs
+d'un rayon unique. C'est la seule marque figurative du site. Non négociable :
+il préexiste à cette charte.
+
+Sa grille est symétrique par rotation à 180° ; ses éléments ne le sont pas.
+Le S porte un crochet haut dont le R n'a pas d'équivalent en bas, et les deux
+moitiés n'ont pas la même structure — on ne dérive pas l'une de l'autre.
+L'écart est voulu : la charte en fait la signature du signe, et la rotation à
+180° s'entend comme principe de construction, non comme égalité mesurable.
+
+### Tracé
+Le geste par lequel le monogramme se révèle au premier chargement, une fois
+par session : le signe pousse depuis son centre vers ses extrémités, chaque
+moitié partant d'un **germe**, et les deux germes sont images l'un de l'autre
+par rotation à 180°. C'est la seule symétrie que le signe permette : ses
+éléments, eux, ne se répondent pas. Seul mouvement du site à dépasser 320 ms,
+et seule apparition qui ne soit pas un déplacement. « Sceau » désigne le
+résultat, « tracé » le geste ; aucun des deux n'est affiché au visiteur.
 
 ### Marque nominale
 **Romain Siré**. Il n'y a pas de nom de studio, pas de raison sociale

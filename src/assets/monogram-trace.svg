@@ -1,0 +1,24 @@
+<!--
+	Ligne médiane du monogramme. Ne se rend jamais : sert uniquement de `stroke`
+	dans le masque du tracé (voir Monogram.astro et docs/adr/0002).
+
+	Dérivée de la grille du signe, pas du contour : graisse 10 u, barres en
+	x = 5, 55, 70, 120 et y = 5, 55, 105, six arcs du rayon unique de la charte
+	(2u = 20). Posée en `stroke-width: 20`, elle couvre 100 % du glyphe.
+
+	Cinq plumes, deux germes. Les germes — (55, 55) pour le S, (70, 55) pour le
+	R — sont images l'un de l'autre par rotation à 180° : c'est le seul endroit
+	du signe où cette rotation est exacte. Le R en demande trois parce que sa
+	médiane est un graphe à deux jonctions : elle ne se parcourt pas d'un trait.
+
+	`pathLength="1"` normalise les cinq longueurs (42 à 165 u) : une seule
+	animation de `stroke-dashoffset` les mène de 1 à 0, et elles arrivent
+	ensemble. Rien à re-régler si la médiane bouge.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 110">
+	<path pathLength="1" d="M55 55 L25 55 A20 20 0 0 1 5 35 L5 5 L35 5 A20 20 0 0 1 55 25 L55 37" />
+	<path pathLength="1" d="M55 55 L55 85 A20 20 0 0 1 35 105 L5 105 L5 68" />
+	<path pathLength="1" d="M70 55 L70 25 A20 20 0 0 1 90 5 L120 5 L120 35 A20 20 0 0 1 100 55" />
+	<path pathLength="1" d="M70 55 L70 97" />
+	<path pathLength="1" d="M70 55 L100 55 A20 20 0 0 1 120 75 L120 110" />
+</svg>

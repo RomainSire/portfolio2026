@@ -21,9 +21,10 @@ Le geste par lequel le monogramme se révèle au premier chargement, une fois
 par session : le signe pousse depuis son centre vers ses extrémités, chaque
 moitié partant d'un **germe**, et les deux germes sont images l'un de l'autre
 par rotation à 180°. C'est la seule symétrie que le signe permette : ses
-éléments, eux, ne se répondent pas. Seul mouvement du site à dépasser 320 ms,
-et seule apparition qui ne soit pas un déplacement. « Sceau » désigne le
-résultat, « tracé » le geste ; aucun des deux n'est affiché au visiteur.
+éléments, eux, ne se répondent pas. La plus longue **apparition** du site, et
+la seule qui ne soit pas un déplacement : tout le reste entre en bougeant, le
+tracé seul surgit de rien. « Sceau » désigne le résultat, « tracé » le geste ;
+aucun des deux n'est affiché au visiteur.
 
 ### Marque nominale
 **Romain Siré**. Il n'y a pas de nom de studio, pas de raison sociale
@@ -100,3 +101,62 @@ légales, CGV, confidentialité. Le passage d'un registre à l'autre est une
 rupture franche, jamais un dégradé progressif : il se lit au changement de
 page, porté par le fondu de navigation (ADR-0003), et le chrome du navigateur
 suit le registre.
+
+## Mouvement
+
+Le site distingue deux familles de mouvement, et c'est la distinction dont
+dépendent toutes les durées.
+
+### Réaction
+Un mouvement qui répond à un geste du visiteur : un survol, une prise de
+focus, un panneau qui s'ouvre, une page qui en remplace une autre. Le
+visiteur l'attend, puisqu'il vient de le déclencher — une réaction lente se
+lit comme une lenteur du site. C'est le domaine où le plafond de la charte
+est juste.
+
+### Apparition
+Un mouvement que personne n'a demandé : un contenu qui prend sa place. Le
+visiteur ne l'attend pas, donc rien ne presse — et s'il va trop vite, on ne
+voit pas un mouvement mais deux états, un avant et un après. Une apparition
+a besoin de durer pour exister.
+
+La charte v1.0 n'avait qu'une échelle de durée, parce qu'elle n'avait
+rencontré que des réactions. Confondre les deux familles était l'erreur
+d'origine, pas la valeur du plafond.
+
+Deux apparitions au site, et deux seulement : la **révélation** et le
+**tracé**.
+
+### Révélation
+Le geste par lequel un bloc de contenu prend sa place quand la lecture
+l'atteint : il monte sur une courte distance et finit de se colorer en
+arrivant. Le déplacement est le geste ; la couleur ne fait que
+l'accompagner.
+
+Une révélation qu'on ne voit pas n'a pas eu lieu. Le geste se joue donc là
+où se porte le regard, jamais au ras du bord de la fenêtre : un bloc qui
+s'anime en lisière arrive dans la zone de lecture déjà posé, et le site
+paraît immobile.
+
+Ce n'est pas un dévoilement. Un bloc pas encore révélé n'est pas caché : il
+est une **silhouette**. C'est là que la révélation se sépare du **tracé**,
+qui, lui, fait apparaître ce qui n'était pas là — et reste la seule
+apparition du site à partir de rien.
+
+Sa raison d'être tient en une conséquence : un bas de page ne se lit jamais
+comme une fin de page. La suite s'annonce d'elle-même, et le site n'a donc
+aucun repère d'interface — flèche, pastille, dégradé de bord — pour inviter
+à faire défiler. Il n'en aura pas : un tel repère serait un mouvement
+permanent, et la charte n'accorde qu'une exception, déjà prise.
+
+### Silhouette
+L'état d'un bloc avant sa révélation. Une silhouette ne réserve pas une
+place : elle est déjà le bloc, à sa place et à sa hauteur. Sa transparence se
+tient en deçà de la lisibilité — une silhouette qu'on peut lire est un
+défaut, une silhouette qu'on ne distingue pas en est un autre.
+
+Le bas de la fenêtre porte en permanence une **lisière** de silhouettes :
+les blocs entrés dans le champ mais pas encore atteints par la lecture. Ce
+n'est pas un état transitoire à corriger, c'est ce qui annonce la suite —
+et c'est pourquoi le site n'a besoin d'aucun repère d'interface pour
+inviter à faire défiler.

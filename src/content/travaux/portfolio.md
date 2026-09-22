@@ -31,12 +31,13 @@ decisions:
       l'asymétrie est la signature.
   - titre: "Une seule courbe d'accélération"
     texte: >-
-      Attaque franche, sortie courbe, partout dans le site. Rien au-delà de
-      320 ms, aucun rebond. Un élément qui apparaît entre par un déplacement,
-      jamais par un simple fondu — une page, elle, n'a nulle part où se
-      déplacer : elle est remplacée, et c'est le seul endroit où le fondu est
-      la règle. Une seule exception aux durées, écrite et assumée : le tracé du
-      monogramme au premier chargement.
+      Attaque franche, sortie courbe, partout dans le site, sans un seul
+      rebond. Deux échelles de durée, parce qu'il y a deux gestes : ce qui
+      répond au visiteur doit être prompt, ce qui apparaît sans qu'il l'ait
+      demandé doit durer assez pour se lire comme un mouvement. Un élément qui
+      apparaît entre par un déplacement, jamais par un simple fondu — une
+      page, elle, n'a nulle part où se déplacer : elle est remplacée, et c'est
+      le seul endroit où le fondu est la règle.
   - titre: "Aucun framework d'interface"
     texte: >-
       Astro, et rien au-dessus. Douze pages statiques n'ont besoin d'aucun

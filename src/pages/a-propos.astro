@@ -62,13 +62,15 @@ const stack = {
 		</aside>
 	</div>
 
-	<section class="shell stack-wrap" aria-labelledby="s-t">
+	{/* Le bloc se révèle d'un tenant : un titre ne paraît jamais sans ce qu'il
+	annonce, sinon le vide sous lui se lit comme une section repliée. */}
+	<section class="shell stack-wrap" aria-labelledby="s-t" data-reveal>
 		<hr class="rule" />
 		<h2 id="s-t" class="chrome lbl">Outils</h2>
 		<div class="cols">
 			{
 				Object.entries(stack).map(([k, v]) => (
-					<div data-reveal>
+					<div>
 						<h3 class="chrome sub">{k}</h3>
 						<ul class="chips chrome">
 							{v.map((s) => (

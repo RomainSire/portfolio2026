@@ -1,5 +1,6 @@
 ---
-status: accepted
+status: superseded
+superseded-by: 0004-deux-familles-de-mouvement-reaction-et-apparition.md
 ---
 
 # Une exception unique à la règle des 320 ms : le tracé du monogramme

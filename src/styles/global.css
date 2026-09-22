@@ -168,19 +168,37 @@ a:hover {
 
 /* --- Mouvement ------------------------------------------------------------
    Tout ce qui apparaît entre par un arc — un déplacement, jamais un simple
-   fondu d'opacité. Aucune animation au-delà de 320 ms, aucun rebond.
-   (Seule exception : le tracé du monogramme. ADR-0002.) */
+   fondu d'opacité. Une seule courbe, aucun rebond.
+
+   La révélation est une APPARITION, pas une réaction : elle tient donc
+   `--dur-reveal` et non le plafond des 320 ms, qui vaut pour ce qui répond
+   au visiteur. À 320 ms, la courbe du système couvrait 88 % du chemin en
+   160 ms et le geste se lisait comme un saut entre deux états ; à 600 ms,
+   la même courbe donne l'impulsion puis l'atterrissage. ADR-0004.
+
+   La révélation ne masque rien : un bloc pas encore révélé est une
+   silhouette — placé, visible, illisible. C'est ce qui empêche un bas de
+   page de se lire comme une fin de page, et c'est pourquoi le déplacement
+   porte ici le geste : le fondu, qui part de `--reveal-floor` et non de
+   zéro, ne fait que l'accompagner. 24 px de course, trois unités de grille :
+   la perceptibilité vient du temps, pas de la distance. */
+/* Une animation, pas une transition — et pas seulement par justesse de
+   vocabulaire : `[data-reveal]` est un sélecteur d'attribut nu (0,1,0), que
+   toute règle scopée d'Astro sur la racine d'un composant surclasse. Un
+   raccourci `transition` y remplacerait la liste entière et la révélation
+   commuterait sans bouger. Une animation ne peut pas lui être prise ainsi. */
 [data-reveal] {
-	opacity: 0;
-	transform: translate3d(0, 14px, 0);
-	transition:
-		opacity var(--dur-slow) var(--ease),
-		transform var(--dur-slow) var(--ease);
-	transition-delay: var(--reveal-delay, 0ms);
+	opacity: var(--reveal-floor);
+	transform: translate3d(0, 24px, 0);
 }
 [data-reveal].is-in {
-	opacity: 1;
-	transform: none;
+	animation: reveler var(--dur-reveal) var(--ease) var(--reveal-delay, 0ms) both;
+}
+@keyframes reveler {
+	to {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 /* --- Transition de page ---------------------------------------------------

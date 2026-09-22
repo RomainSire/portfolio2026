@@ -59,7 +59,12 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 				}
 
 				// Révélation : ce qui apparaît entre par un déplacement, jamais par un
-				// simple fondu. Rien au-delà de 320 ms, aucun rebond. (global.css)
+				// simple fondu. Une apparition, donc `--dur-reveal`. (global.css)
+				// La marge basse retient le déclenchement jusqu'à ce que le bloc soit
+				// franchement entré : sinon le geste se joue au ras du bord, hors du
+				// regard, et le bloc arrive posé. Une révélation qu'on ne voit pas
+				// n'a pas eu lieu. La lisière ainsi laissée en `--reveal-floor`
+				// annonce la suite du contenu.
 				function reveler() {
 					const els = d.querySelectorAll("[data-reveal]");
 					if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -74,7 +79,7 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 									io.unobserve(es[i].target);
 								}
 						},
-						{ rootMargin: "0px 0px -12% 0px", threshold: 0.05 },
+						{ rootMargin: "0px 0px -20% 0px", threshold: 0 },
 					);
 					for (let i = 0; i < els.length; i++) io.observe(els[i]);
 				}

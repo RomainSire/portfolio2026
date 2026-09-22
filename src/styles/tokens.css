@@ -66,12 +66,30 @@
 	--r-panel: 16px;
 
 	/* --- Mouvement --------------------------------------------------------
-	   Une seule courbe dans tout le produit : attaque franche, sortie courbe. */
+	   Une seule courbe dans tout le produit : attaque franche, sortie courbe.
+
+	   Deux familles, deux échelles de durée. Une RÉACTION répond à un geste
+	   du visiteur et doit être prompte : au-delà de 320 ms, elle se lit comme
+	   une lenteur. Une APPARITION ne répond à rien — personne ne l'attend, et
+	   sous 320 ms elle ne se lit pas comme un mouvement mais comme un saut
+	   entre deux états. Le plafond unique de la charte v1.0 confondait les
+	   deux ; ADR-0004. */
 	--ease: cubic-bezier(0.2, 0, 0, 1);
+
+	/* Réaction */
 	--dur-fast: 120ms; /* survol, focus */
 	--dur-base: 200ms; /* panneau, onglet */
-	--dur-slow: 320ms; /* page, révélation */
-	--dur-seal: 900ms; /* EXCEPTION UNIQUE — tracé du monogramme. ADR-0002. */
+	--dur-slow: 320ms; /* fondu de page (ADR-0003), survol d'une vignette */
+
+	/* Apparition */
+	--dur-reveal: 600ms; /* révélation d'un bloc à l'entrée dans le cadre */
+	--dur-seal: 900ms; /* tracé du monogramme, une fois par session. ADR-0002. */
+
+	/* Opacité d'un bloc pas encore révélé. Non nulle : la révélation achève
+	   une arrivée, elle ne lève pas un rideau. Assez basse pour rester en
+	   deçà de la lisibilité (≈ 1,2:1 sur washi, ≈ 1,5:1 sur encre), assez
+	   haute pour qu'un bas de page ne se lise jamais comme une fin de page. */
+	--reveal-floor: 0.16;
 }
 
 /* --- Registre GALERIE -----------------------------------------------------

@@ -53,8 +53,9 @@ const pens = seal ? strip((await import("../assets/monogram-trace.svg?raw")).def
 		height: 100%;
 	}
 
-	/* Exception unique à la règle des 320 ms : le signe pousse depuis ses deux
-	   germes vers ses extrémités, une fois par session. Voir docs/adr/0002.
+	/* La plus longue apparition du site, et la seule qui parte de rien : le
+	   signe pousse depuis ses deux germes vers ses extrémités, une fois par
+	   session. Voir docs/adr/0002, révisé par docs/adr/0004.
 
 	   Le masque reste posé après coup — `data-seal` n'arrive qu'au chargement
 	   suivant — donc l'état final doit couvrir tout le glyphe. C'est le cas :

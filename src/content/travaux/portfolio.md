@@ -38,7 +38,7 @@ resultat: >-
   site que vous lisez.
 liens:
   - label: "Voir le code"
-    url: "https://github.com/RomainSire/portfolio202609"
+    url: "https://github.com/RomainSire/portfolio2026"
 ---
 
 Le monogramme est antérieur à tout le reste : il existait avant la charte, et

@@ -103,7 +103,7 @@ const { Content } = await render(entry);
 								{d.liens.map((l) => (
 									<li>
 										{l.url ? (
-											<a href={l.url} rel="noopener">
+											<a href={l.url}>
 												{l.label}
 											</a>
 										) : (

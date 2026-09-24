@@ -47,9 +47,8 @@ resultat: >-
   Mission longue, toujours en cours. Le secteur — les énergies renouvelables —
   est celui où j'ai passé les dix ans qui ont précédé le développement.
 liens:
-  - label: "Voir la démo"
-    url: "https://web-app.notrelec.fr"
-    note: "N'importe quels identifiants sont acceptés."
+  - label: "Landing page de la société"
+    url: "https://notrelec.fr/"
   - label: "Dépôt"
     url: ""
     note: "Privé."

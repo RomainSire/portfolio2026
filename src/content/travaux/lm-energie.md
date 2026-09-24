@@ -52,7 +52,7 @@ resultat: >-
   parking, centrales au sol.
 liens:
   - label: "Voir le site"
-    url: "https://maroon-peafowl-652176.hostingersite.com/"
+    url: "https://lmenergie.com/"
   - label: "Dépôt"
     url: ""
     note: "Privé."

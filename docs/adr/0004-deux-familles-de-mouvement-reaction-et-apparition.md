@@ -1,5 +1,6 @@
 ---
 status: accepted
+amended-by: 0005-le-trace-se-joue-a-chaque-chargement-de-document.md
 supersedes: 0002-exception-unique-a-la-regle-des-320-ms.md
 ---
 

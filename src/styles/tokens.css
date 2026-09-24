@@ -83,7 +83,7 @@
 
 	/* Apparition */
 	--dur-reveal: 600ms; /* révélation d'un bloc à l'entrée dans le cadre */
-	--dur-seal: 900ms; /* tracé du monogramme, une fois par session. ADR-0002. */
+	--dur-seal: 900ms; /* tracé du monogramme, une fois par document. ADR-0005. */
 
 	/* Opacité d'un bloc pas encore révélé. Non nulle : la révélation achève
 	   une arrivée, elle ne lève pas un rideau. Assez basse pour rester en

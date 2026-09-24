@@ -50,12 +50,11 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 				const d = document,
 					r = d.documentElement;
 
-				// Tracé du monogramme : une fois par session. ADR-0002.
+				// Tracé du monogramme : une fois par chargement de document. Un
+				// document neuf n'a pas `data-seal`, le tracé s'y joue ; une
+				// navigation interne le pose, le sceau y reste posé. ADR-0005.
 				function sceau() {
-					try {
-						if (sessionStorage.getItem("seal")) r.setAttribute("data-seal", "done");
-						else sessionStorage.setItem("seal", "1");
-					} catch (e) {}
+					r.setAttribute("data-seal", "done");
 				}
 
 				// Révélation : ce qui apparaît entre par un déplacement, jamais par un
@@ -95,7 +94,6 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 					}
 				}
 
-				sceau();
 				if (!window.__rs) {
 					window.__rs = 1;
 					d.addEventListener("astro:after-swap", sceau);

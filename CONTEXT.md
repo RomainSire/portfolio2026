@@ -17,10 +17,10 @@ L'écart est voulu : la charte en fait la signature du signe, et la rotation à
 180° s'entend comme principe de construction, non comme égalité mesurable.
 
 ### Tracé
-Le geste par lequel le monogramme se révèle au premier chargement, une fois
-par session : le signe pousse depuis son centre vers ses extrémités, chaque
-moitié partant d'un **germe**, et les deux germes sont images l'un de l'autre
-par rotation à 180°. C'est la seule symétrie que le signe permette : ses
+Le geste par lequel le monogramme se révèle quand la page se charge, et
+jamais sur une navigation interne : le signe pousse depuis son centre vers
+ses extrémités, chaque moitié partant d'un **germe**, et les deux germes sont
+images l'un de l'autre par rotation à 180°. C'est la seule symétrie que le signe permette : ses
 éléments, eux, ne se répondent pas. La plus longue **apparition** du site, et
 la seule qui ne soit pas un déplacement : tout le reste entre en bougeant, le
 tracé seul surgit de rien. « Sceau » désigne le résultat, « tracé » le geste ;

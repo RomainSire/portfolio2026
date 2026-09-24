@@ -4,54 +4,38 @@ nature: "Réalisation"
 organisation: "Personnel"
 secteur: "Identité et site"
 periode: "2026"
-accroche: "Une charte graphique déduite d'un monogramme, et un site qui tient sans framework."
+accroche: "Une identité déduite d'un monogramme, un site écrit avec un agent IA, et un dépôt public pour le vérifier."
 role: "Charte graphique, conception, développement, déploiement."
 ordre: 5
 visuelAlt: "Page d'accueil de ce site."
 sansVisuel: "Vous la regardez."
-stack: ["Astro", "TypeScript", "CSS", "Docker", "nginx"]
+stack: ["Astro", "TypeScript", "CSS", "Docker", "nginx", "Claude Code"]
 contraintes:
   - titre: "Le précédent portfolio avait vieilli en deux ans"
     texte: >-
-      Il était en néo-brutalisme. Le style était juste au moment où je l'ai
-      choisi, et daté peu après. Refaire un site à la mode du moment, c'est
-      reprogrammer la même obsolescence.
-  - titre: "Un système, pas une préférence"
-    texte: >-
-      Une forme ne tient dans le temps que si elle est déductible d'une règle.
-      Encore faut-il écrire la règle avant de dessiner.
+      Il suivait la mode du moment, le néo-brutalisme, et il a vieilli avec
+      elle. En refaire un à la mode d'aujourd'hui, c'était programmer la même
+      obsolescence.
 decisions:
-  - titre: "Droit + arc, et rien d'autre"
+  - titre: "Une règle plutôt qu'une mode"
     texte: >-
-      Toute forme du système est soit un segment droit, soit un arc du rayon de
-      référence. La règle vient du monogramme, qui est construit ainsi ; elle
-      gouverne ensuite toute l'interface. Le rayon s'applique en
-      diagonale — coin supérieur gauche et coin inférieur droit arrondis, les
-      deux autres à angle vif. Quatre coins identiques sont interdits :
-      l'asymétrie est la signature.
-  - titre: "Une seule courbe d'accélération"
+      Toute forme du site est un segment droit ou un arc d'un rayon unique :
+      c'est la règle du monogramme, étendue à toute l'interface. Elle ne dépend
+      d'aucune tendance, et ne vieillira pas avec elles.
+  - titre: "L'agent code, je décide"
     texte: >-
-      Attaque franche, sortie courbe, partout dans le site, sans un seul
-      rebond. Deux échelles de durée, parce qu'il y a deux gestes : ce qui
-      répond au visiteur doit être prompt, ce qui apparaît sans qu'il l'ait
-      demandé doit durer assez pour se lire comme un mouvement. Un élément qui
-      apparaît entre par un déplacement, jamais par un simple fondu — une
-      page, elle, n'a nulle part où se déplacer : elle est remplacée, et c'est
-      le seul endroit où le fondu est la règle.
-  - titre: "Aucun framework d'interface"
+      Le site est écrit avec un agent IA, selon la méthode de Matt Pocock. Avant
+      chaque fonctionnalité, je le fais m'interroger jusqu'à ce qu'il soit
+      aligné sur ce que je veux, pas sur ce qu'il suppose. Puis il code, et je
+      relis et teste chaque changement.
+  - titre: "La méthode est dans le dépôt"
     texte: >-
-      Astro, et rien au-dessus. Douze pages statiques n'ont besoin d'aucun
-      runtime. Le site sert moins de sept kilo-octets de JavaScript compressé,
-      dont les deux tiers pour le routeur qui enchaîne les pages. Le reste fait
-      trois choses : révéler les blocs à l'entrée dans le cadre, précharger les
-      liens au survol, et reconstituer l'adresse email qui n'est pas écrite en
-      clair dans le HTML. Rien d'autre. Le corollaire :
-      pas de formulaire, pas de mesure d'audience, pas de cookie — donc aucune
-      donnée personnelle traitée, et une page de confidentialité qui tient en
-      cinq lignes, et qui dit vrai.
+      Le glossaire du site et ses décisions d'architecture sont ce qui aligne
+      l'agent, et ils sont versionnés avec le code. Le dépôt est public : on
+      peut vérifier comment je travaille.
 resultat: >-
-  Image nginx immuable, construite par intégration continue, déployée par
-  conteneur. Le site que vous lisez.
+  Un site statique Astro, déployé en conteneur par intégration continue. Le
+  site que vous lisez.
 liens:
   - label: "Voir le code"
     url: "https://github.com/RomainSire/portfolio202609"

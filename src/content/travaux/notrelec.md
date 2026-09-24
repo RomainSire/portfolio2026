@@ -12,7 +12,7 @@ role: >-
 ordre: 1
 visuel: "../../assets/work/notrelec.webp"
 visuelAlt: "Interface de la plateforme Notrelec."
-stack: ["TypeScript", "React", "Vite", "NestJS"]
+stack: ["TypeScript", "React", "Tailwind", "TanStack Query", "Vite", "NestJS"]
 contraintes:
   - titre: "Le mandat ENEDIS est un point de non-retour"
     texte: >-
@@ -40,6 +40,9 @@ decisions:
       Sur une équipe de cette taille, un développeur qui garde son domaine pour
       lui devient un goulot d'étranglement. J'ai formé les alternants sur le front
       pour que les écrans puissent avancer sans moi.
+  - titre: "Aligner l'agent avant de le laisser coder"
+    texte: >-
+      Je développe récemment avec un agent IA : une conception détaillée d'abord, un agent aligné sur le besoin avant la première ligne, puis relecture du code et tests dans l'interface. Quand le cadrage est bon, il y a rarement besoin d'y revenir. L'autre développeur expérimenté de l'équipe était arrivé seul à la même méthode, et je l'ai transmise à l'alternante.
 resultat: >-
   Mission longue, toujours en cours. Le secteur — les énergies renouvelables —
   est celui où j'ai passé les dix ans qui ont précédé le développement.

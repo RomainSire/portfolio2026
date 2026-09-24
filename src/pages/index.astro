@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import Base from "../layouts/Base.astro";
 import Monogram from "../components/Monogram.astro";
 import WorkRow from "../components/WorkRow.astro";
+import Base from "../layouts/Base.astro";
 
 const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b.data.ordre);
 ---
@@ -10,7 +10,7 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 <Base
 	title="Romain Siré — Développeur indépendant, secteur de l'énergie"
 	rawTitle
-	description="Développeur indépendant (freelance). Autoconsommation collective, photovoltaïque, télésurveillance médicale. TypeScript, React, Astro."
+	description="Développeur web indépendant (freelance) à Toulouse, dix ans d'ingénierie dans l'énergie. React et TypeScript pour l'autoconsommation, le photovoltaïque et la santé."
 >
 	<section class="hero shell">
 		<Monogram size={84} seal class="mark" />
@@ -19,11 +19,12 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 			Dix ans d'ingénierie dans l'énergie<span class="shu" aria-hidden="true"></span>
 		</h1>
 		<p class="lead measure sub">
-			Je construis des interfaces pour des produits où une erreur ne se règle pas par un ticket : plateformes
-			d'autoconsommation collective, télésurveillance médicale, sites d'installateurs photovoltaïques.
+			Je comprends le métier avant d'écrire le code. Autoconsommation collective, télésurveillance médicale,
+			photovoltaïque : des produits où le domaine compte autant que la technique. Le front avant tout, et ce
+			qu'il faut autour pour que le produit tienne.
 		</p>
 		<p class="chrome avail">
-			En mission chez Notrelec · Toulouse et à distance
+			En mission chez Notrelec · Toulouse, sur site ou à distance
 		</p>
 	</section>
 

@@ -1,8 +1,11 @@
-name: Construire et publier l'image
+name: Vérifier, publier, livrer
 
+# Chaque push sur main est vérifié. Seul un tag de version (v1.0.0) publie
+# l'image et la met en ligne.
 on:
   push:
     branches: [main]
+    tags: ["v*.*.*"]
   workflow_dispatch:
 
 env:
@@ -10,11 +13,10 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
 
     steps:
       - uses: actions/checkout@v5
@@ -34,6 +36,27 @@ jobs:
       - run: pnpm run check
       - run: pnpm run build
 
+  publish:
+    needs: check
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # Le tag et package.json doivent dire la même chose : sinon on ne sait
+      # plus quelle version tourne.
+      - name: Tag cohérent avec package.json
+        run: |
+          expected="v$(jq -r .version package.json)"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, package.json $expected"
+            exit 1
+          fi
+
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3
@@ -42,12 +65,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Sur un tag semver, latest suit aussi la dernière version publiée.
       - id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
             type=sha,format=short
 
       - uses: docker/build-push-action@v6
@@ -59,6 +84,32 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Le VPS tire l'image lui-même. Deux voies possibles, à choisir avec
-      # l'agent qui connaît la machine : un webhook (Watchtower, Diun) ou une
-      # étape SSH ici. Rien n'est câblé tant que ce choix n'est pas fait.
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://romainsire.com
+    # Deux livraisons ne se croisent jamais sur le VPS.
+    concurrency:
+      group: production
+      cancel-in-progress: false
+
+    steps:
+      # La clé est liée côté VPS à deploy.sh par une commande forcée : la seule
+      # chose envoyée est le numéro de version.
+      - name: Livrer sur le VPS
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          TARGET: ${{ secrets.DEPLOY_TARGET }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            "$TARGET" "${GITHUB_REF_NAME#v}"
+
+      - name: Le site répond
+        run: curl -fsS -o /dev/null --retry 5 --retry-delay 3 --retry-all-errors https://romainsire.com/

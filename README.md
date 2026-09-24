@@ -71,22 +71,35 @@ générique.
 L'image finale ne contient que `dist/` servi par nginx : aucun Node, aucune
 dépendance, aucun secret.
 
+Une version se livre en poussant son tag :
+
 ```sh
-make image     # construit l'image localement
-make push      # publie sur GHCR
-make deploy    # à lancer sur le VPS : pull + up -d
+pnpm version 1.1.0 --no-git-tag-version   # met à jour package.json
+# commit, puis :
+git tag v1.1.0 && git push origin main v1.1.0
 ```
 
-`docker-compose.yml` est un **premier jet**. Avant la première mise en ligne,
-il faut confirmer sur la machine :
+Le workflow `.github/workflows/deploy.yml` vérifie chaque push sur `main`. Sur
+un tag `vX.Y.Z`, et seulement là, il publie l'image sur GHCR
+(`ghcr.io/romainsire/portfolio2026:X.Y.Z`, plus `latest`) puis la met en ligne
+par SSH. Le tag doit correspondre au champ `version` de `package.json`, sinon
+le job échoue.
 
-- le nom réel du réseau Traefik (`networks.traefik.name`) ;
-- le nom du résolveur ACME (`certresolver=letsencrypt`) ;
-- le domaine servi et la redirection `www` → apex.
+Côté VPS, `/opt/docker/portfolio-2026/` contient une copie de
+[`deploy/docker-compose.yml`](./deploy/docker-compose.yml) et de
+[`deploy/deploy.sh`](./deploy/deploy.sh). La clé SSH de la CI est liée à
+`deploy.sh` par une commande forcée dans `authorized_keys` : elle ne peut rien
+faire d'autre que livrer une version. Une modification de ces deux fichiers
+dans le dépôt doit être recopiée à la main sur le VPS.
 
-Le workflow `.github/workflows/deploy.yml` construit et publie l'image à chaque
-push sur `main`. Le VPS la tire lui-même : **la voie n'est pas câblée** — webhook
-(Watchtower, Diun) ou étape SSH, à trancher avec la machine sous les yeux.
+Revenir à une version précédente, sur le VPS :
+
+```sh
+/opt/docker/portfolio-2026/deploy.sh 1.0.0
+```
+
+Secrets du dépôt : `DEPLOY_SSH_KEY`,
+`DEPLOY_KNOWN_HOSTS`, `DEPLOY_TARGET` (`ssh://utilisateur@hôte:port`).
 
 ## Ce que le site ne fait pas
 

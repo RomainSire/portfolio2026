@@ -1,14 +1,19 @@
-# Premier jet. Le VPS est administré par ailleurs : adapter le nom du réseau
-# Traefik, le résolveur ACME et le domaine avant la première mise en ligne.
+# Copie de référence de /opt/docker/portfolio-2026/docker-compose.yml sur le VPS.
+# La version servie vient de TAG, écrit dans .env par deploy.sh : aucune image
+# « latest » ne tourne en production, et revenir en arrière consiste à relancer
+# deploy.sh avec une version précédente.
 services:
   site:
-    image: ghcr.io/romainsire/portfolio202609:latest
+    image: ghcr.io/romainsire/portfolio2026:${TAG:?TAG absent, lancer deploy.sh <version>}
     container_name: romainsire-site
     restart: unless-stopped
     networks:
-      - traefik
+      - traefik-public
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      # La livraison passe par la CI : Watchtower ne doit pas s'en mêler.
+      - "com.centurylinklabs.watchtower.enable=false"
       # --- HTTPS -------------------------------------------------------------
       - "traefik.http.routers.rs-site.rule=Host(`romainsire.com`) || Host(`www.romainsire.com`)"
       - "traefik.http.routers.rs-site.entrypoints=websecure"
@@ -26,6 +31,5 @@ services:
       - "traefik.http.routers.rs-site.middlewares=rs-www,rs-hsts"
 
 networks:
-  traefik:
+  traefik-public:
     external: true
-    # name: <nom réel du réseau Traefik sur le VPS>

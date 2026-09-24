@@ -1,7 +1,7 @@
-IMAGE ?= ghcr.io/romainsire/portfolio202609
+IMAGE ?= ghcr.io/romainsire/portfolio2026
 TAG   ?= latest
 
-.PHONY: dev build preview image push deploy check
+.PHONY: dev build preview image push check
 
 dev:      ## Serveur de développement
 	pnpm run dev
@@ -20,6 +20,3 @@ image:    ## Construit l'image Docker localement
 
 push: image
 	docker push $(IMAGE):$(TAG)
-
-deploy:   ## À lancer sur le VPS
-	docker compose pull && docker compose up -d && docker image prune -f

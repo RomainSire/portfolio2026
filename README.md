@@ -74,9 +74,8 @@ dépendance, aucun secret.
 Une version se livre en poussant son tag :
 
 ```sh
-pnpm version 1.1.0 --no-git-tag-version   # met à jour package.json
-# commit, puis :
-git tag v1.1.0 && git push origin main v1.1.0
+pnpm version minor -m "chore(release): %s"   # ou patch, major : package.json, commit et tag vX.Y.Z
+git push --follow-tags
 ```
 
 Le workflow `.github/workflows/deploy.yml` vérifie chaque push sur `main`. Sur

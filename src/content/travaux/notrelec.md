@@ -11,6 +11,7 @@ role: >-
   d'alternants.
 ordre: 1
 visuel: "../../assets/work/notrelec.webp"
+vignette: "../../assets/work/notrelec-vignette.webp"
 visuelAlt: "Interface de la plateforme Notrelec."
 stack: ["TypeScript", "React", "Tailwind", "TanStack Query", "Vite", "NestJS"]
 contraintes:

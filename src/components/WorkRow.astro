@@ -35,7 +35,7 @@ const num = String(index).padStart(2, "0");
 	<div class="visual">
 		{
 			d.visuel ? (
-				<Image src={d.visuel} alt={d.visuelAlt ?? d.titre} widths={[380, 760]} sizes="(max-width: 860px) 90vw, 380px" class="shot diag" loading={index <= 2 ? "eager" : "lazy"} />
+				<Image src={d.vignette ?? d.visuel} alt={d.visuelAlt ?? d.titre} widths={[380, 760]} sizes="(max-width: 860px) 90vw, 380px" class="shot diag" loading={index <= 2 ? "eager" : "lazy"} />
 			) : (
 				<Absent raison={d.sansVisuel ?? "Capture à venir."} stack={d.stack} />
 			)

@@ -10,6 +10,7 @@ role: >-
   mission au forfait : reprise et assainissement du serveur.
 ordre: 4
 visuel: "../../assets/work/doglife.webp"
+vignette: "../../assets/work/doglife-vignette.webp"
 visuelAlt: "Page d'accueil du site Doglife."
 stack: ["Astro", "TypeScript", "React", "Figma"]
 contraintes:

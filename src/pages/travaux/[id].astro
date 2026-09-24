@@ -38,7 +38,7 @@ const { Content } = await render(entry);
 		<figure class="shell media" data-reveal>
 			{
 				d.visuel ? (
-					<Image src={d.visuel} alt={d.visuelAlt ?? d.titre} widths={[720, 1180]} sizes="(max-width: 1180px) 92vw, 1100px" class="shot" />
+					<Image src={d.visuel} alt={d.visuelAlt ?? d.titre} widths={[720, 1180, 2200]} sizes="(max-width: 1180px) 92vw, 1100px" class="shot" />
 				) : (
 					<Absent raison={d.sansVisuel ?? "Capture à venir."} stack={d.stack} grand />
 				)

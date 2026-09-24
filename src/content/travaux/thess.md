@@ -10,7 +10,9 @@ role: >-
   puis en freelance. Nouvelles fonctionnalités, maintenance, tests, et le
   chantier de migration du code historique vers TypeScript, puis vers React.
 ordre: 3
-sansVisuel: "Application médicale — captures non diffusables."
+visuel: "../../assets/work/thess.webp"
+vignette: "../../assets/work/thess-vignette.webp"
+visuelAlt: "Écran de suivi d'un traitement cyclique dans l'application Thess, sur un patient fictif."
 stack: ["TypeScript", "React", "SASS", "JSX"]
 contraintes:
   - titre: "Migrer sans jamais tout arrêter"

@@ -27,6 +27,8 @@ const travaux = defineCollection({
 				.array(z.object({ label: z.string(), url: z.url().or(z.literal("")), note: z.string().optional() }))
 				.default([]),
 			visuel: image().optional(),
+			/** Cadrage 16:10 pour la liste de la home ; à défaut, le visuel. */
+			vignette: image().optional(),
 			visuelAlt: z.string().optional(),
 			/** Pas de capture diffusable : traitement typographique pur. */
 			sansVisuel: z.string().optional(),

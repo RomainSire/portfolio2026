@@ -10,7 +10,8 @@ role: >-
   logique d'affichage écrits en PHP.
 ordre: 2
 visuelAlt: "Page d'accueil du site LM Énergie."
-sansVisuel: "Capture en attente de la bascule sur le domaine définitif."
+visuel: "../../assets/work/lm-energie.webp"
+vignette: "../../assets/work/lm-energie-vignette.webp"
 stack: ["WordPress", "PHP", "Kadence"]
 contraintes:
   - titre: "Tout éditable, sans toucher au code"

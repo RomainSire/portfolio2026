@@ -19,9 +19,9 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 			Dix ans d'ingénierie dans l'énergie<span class="shu" aria-hidden="true"></span>
 		</h1>
 		<p class="lead measure sub">
-			Je comprends le métier avant d'écrire le code. Autoconsommation collective, télésurveillance médicale,
-			photovoltaïque : des produits où le domaine compte autant que la technique. Le front avant tout, et ce
-			qu'il faut autour pour que le produit tienne.
+			Avant d'écrire du code, je prends le temps de comprendre le métier et de m'assurer que l'on est parfaitement alignés.<br />
+			En effet, j'ai travaillé sur des projets aux enjeux bien réels comme la télésurveillance médicale ou l'autoconsommation collective, sur lesquels une erreur peut avoir de vraies conséquences.<br />
+			Mon cœur de métier reste le front-end, mais je m'occupe aussi de l'UX, du design, du back-end ou de l'infra lorsque c'est nécessaire.
 		</p>
 		<p class="chrome avail">
 			En mission chez Notrelec · Toulouse, sur site ou à distance
@@ -31,7 +31,6 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 	<section class="shell travaux" aria-labelledby="t-titre">
 		<div class="head">
 			<h2 id="t-titre" class="chrome">Travaux</h2>
-			<p class="chrome count">{travaux.length} — peu de travaux, mais menés loin</p>
 		</div>
 		{travaux.map((e, i) => <WorkRow entry={e} index={i + 1} />)}
 		<hr class="rule" />

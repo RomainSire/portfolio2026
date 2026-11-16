@@ -11,3 +11,7 @@ typo choisie, posées sur le header, le footer, le favicon et l'image OG :
 (a) le rayon diagonal comme signe, (b) un SR construit uniquement de segments
 droits et d'arcs d'un rayon unique, (c) le nom seul, sans signe figuratif.
 Contrainte souple : (a) et (b) doivent pouvoir se tracer.
+
+## Contexte
+
+- Typo choisie : Overpass + Overpass Mono (`issues/03-choix-de-la-typographie.md`).

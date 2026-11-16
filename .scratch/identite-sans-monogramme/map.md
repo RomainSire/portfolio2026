@@ -34,6 +34,7 @@ L'implémentation reste hors carte.
 
 - [Diagnostic : qu'est-ce qui fait « AI made » ?](issues/01-diagnostic-du-fait-ia.md) : quatre éléments à changer, le couple Geist, les labels mono en capitales (mono réservée aux données, en bas de casse), la pastille et la température de l'encre et du washi ; le hero, les filets et le point shu restent.
 - [Typographies libres candidates](issues/02-typographies-libres-candidates.md) : 12 couples OFL vérifiés ; tête de liste Overpass, Sono, Iosevka Charon, Recursive.
+- [Choix de la typographie](issues/03-choix-de-la-typographie.md) : Overpass + Overpass Mono ; Recursive écartée car sans et mono trop proches ; la règle des labels du prototype n'a pas été contestée.
 
 ## Not yet specified
 

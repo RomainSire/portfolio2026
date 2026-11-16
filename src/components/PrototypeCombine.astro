@@ -1,0 +1,108 @@
+---
+/*
+ * PROTOTYPE — à jeter. Ticket « Élément personnel »
+ * (.scratch/identite-sans-monogramme/issues/07-element-personnel.md).
+ *
+ * Le rendu combiné : tout ce qui est déjà décidé, ensemble, sur les vraies
+ * pages, sans élément personnel. Question posée : le site paraît-il encore
+ * généré ?
+ *   - Overpass + Overpass Mono, règle des labels (ticket 03) ;
+ *   - le nom seul ponctué du shu, plus aucun monogramme ni tracé (04, 05) ;
+ *   - encre et washi teintés de bleu, valeurs du ticket 06 ;
+ *   - la pastille en bas de casse, avec son nouveau texte (01, C).
+ *
+ * Touche A (ou le bouton) : bascule avant / après, pour comparer au site
+ * actuel. Rendu seulement en dev (Base.astro), styles en `is:inline`.
+ */
+---
+
+<style is:inline>
+	@font-face { font-family: "P Overpass"; src: url("/fonts/prototype/overpass.woff2") format("woff2-variations"); font-weight: 100 900; font-display: swap; }
+	@font-face { font-family: "P Overpass Mono"; src: url("/fonts/prototype/overpass-mono.woff2") format("woff2-variations"); font-weight: 300 700; font-display: swap; }
+
+	/* --- Palette bleue (ticket 06) ---------------------------------------- */
+	html[data-combine="apres"] {
+		--ink: #090f15; --steel: #262c32; --ash: #787c81; --ash-deep: #686c71;
+		--kasumi: #c0c6cd; --washi: #ebf2fb;
+	}
+	html[data-combine="apres"] [data-registre="galerie"] { --bg-raised: #f9fcff; }
+
+	/* --- Typo et labels (ticket 03) --------------------------------------- */
+	html[data-combine="apres"] { --sans: "P Overpass", sans-serif; --mono: "P Overpass Mono", monospace; }
+	html[data-combine="apres"] .chrome { text-transform: none; letter-spacing: 0; font-size: 0.75rem; }
+	html[data-combine="apres"] :is(.chrome.lbl, h2.chrome, h3.chrome, .links, .col > p.chrome, .top > p.chrome,
+		.wrap > p.chrome:not(.maj):not(.code), .pg .chrome, .crumbs, .wrap span.chrome) {
+		font-family: var(--sans); font-size: var(--t-caption); font-weight: 500;
+		letter-spacing: 0; text-transform: none;
+	}
+	html[data-combine="apres"] .links { font-weight: 400; font-size: var(--t-caption); }
+
+	/* --- Le nom seul, plus de monogramme (tickets 04, 05) ------------------ */
+	html[data-combine="apres"] .mono { display: none !important; }
+	html[data-combine="apres"] .brand .name { display: inline !important; font-size: var(--t-body); font-weight: 600; letter-spacing: -0.01em; }
+	html[data-combine="apres"] .brand .name::after {
+		content: ""; display: inline-block; width: 0.25em; height: 0.25em; min-width: 5px; min-height: 5px;
+		margin-left: 0.05em; border-radius: 50%; background: var(--seal);
+	}
+
+	/* --- Bascule (hors design évalué) ------------------------------------- */
+	#p-bar {
+		position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 1000;
+		display: flex; align-items: center; gap: 4px; padding: 4px;
+		background: #ffe600; color: #000; border: 2px solid #000; border-radius: 999px;
+		box-shadow: 0 6px 24px rgb(0 0 0 / 0.45);
+		font: 600 13px/1 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+	}
+	#p-bar button { all: unset; cursor: pointer; padding: 8px 14px; border-radius: 999px; }
+	#p-bar button[aria-pressed="true"] { background: #000; color: #ffe600; }
+</style>
+
+<div id="p-bar" transition:persist="p-bar" aria-label="Prototype : rendu combiné">
+	<button type="button" data-v="avant">Avant (site actuel)</button>
+	<button type="button" data-v="apres">Après (tout le décidé)</button>
+</div>
+
+<script is:inline>
+	(function () {
+		var KEY = "p-combine";
+		var AVAIL_APRES = "Actuellement en mission chez Notrelec · Toulouse";
+		function current() {
+			var q = new URL(location.href).searchParams.get("v");
+			if (q === "avant" || q === "apres") return q;
+			try { var s = sessionStorage.getItem(KEY); if (s) return s; } catch (e) {}
+			return "apres";
+		}
+		function apply(v) {
+			document.documentElement.setAttribute("data-combine", v);
+			try { sessionStorage.setItem(KEY, v); } catch (e) {}
+			var a = document.querySelector(".avail");
+			if (a) {
+				if (!a.dataset.avant) a.dataset.avant = a.textContent.trim();
+				a.textContent = v === "apres" ? AVAIL_APRES : a.dataset.avant;
+			}
+			var meta = document.querySelector('meta[name="theme-color"]');
+			if (meta) {
+				if (!meta.dataset.avant) meta.dataset.avant = meta.content;
+				var gal = meta.dataset.avant.toLowerCase() === "#f4f1ea";
+				meta.content = v === "apres" ? (gal ? "#ebf2fb" : "#090f15") : meta.dataset.avant;
+			}
+			document.querySelectorAll("#p-bar button").forEach(function (b) {
+				b.setAttribute("aria-pressed", String(b.dataset.v === v));
+			});
+		}
+		apply(current());
+		if (!window.__pCombine) {
+			window.__pCombine = 1;
+			document.addEventListener("astro:after-swap", function () { apply(current()); });
+			document.addEventListener("click", function (e) {
+				var b = e.target.closest && e.target.closest("#p-bar button");
+				if (b) apply(b.dataset.v);
+			});
+			document.addEventListener("keydown", function (e) {
+				var t = e.target;
+				if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+				if (e.key === "a" || e.key === "A") apply(current() === "apres" ? "avant" : "apres");
+			});
+		}
+	})();
+</script>

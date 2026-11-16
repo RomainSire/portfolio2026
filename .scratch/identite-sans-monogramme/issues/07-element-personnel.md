@@ -1,7 +1,7 @@
 # Élément personnel
 
 Type: grilling
-Status: open
+Status: resolved
 Blocked by: 05, 06
 
 ## Question
@@ -24,3 +24,31 @@ décorative » ? Pas de photo de Romain.
 - « Température de l'encre et du washi » (`issues/06-temperature-de-l-encre-et-du-washi.md`) :
   encre et washi teintés de bleu, pas réchauffés. Le shu devient le seul
   accent chaud du site.
+- Prototype : branche `prototype/rendu-combine`
+  (`src/components/PrototypeCombine.astro` : tout le décidé ensemble sur les
+  vraies pages, bascule avant / après).
+
+## Answer
+
+**Pas d'élément personnel.** Jugé sur le rendu combiné (Overpass et la règle
+des labels, le nom seul ponctué du shu, l'encre et le washi bleus, la
+pastille en bas de casse) : le site ne paraît plus généré, rien n'est à
+ajouter. La spec ne prévoit ni écriture manuscrite, ni matière
+photographique, ni nouvelle apparition.
+
+Le « trop froid » du diagnostic voulait dire **impersonnel**, sans auteur
+visible, et non une température de couleur : c'est pourquoi le bleu a pu être
+retenu. Les changements déjà décidés y répondent.
+
+Garde-fous validés, pour le cas où un élément personnel reviendrait un jour
+dans un autre chantier :
+
+1. **Il vient de Romain** (sa main, ses photos) : ni stock, ni image générée,
+   ni police « manuscrite ».
+2. **Il est statique** : il ne se dessine pas, et la révélation reste la seule
+   apparition (pas de nouveau jeton, pas d'ADR de mouvement).
+3. **Il ne touche pas au système formel** : règle du shu, courbe
+   fonctionnelle.
+
+Conséquence pour la rédaction finale : rien à ajouter à la spec ni à
+`CONTEXT.md` au titre de ce ticket.

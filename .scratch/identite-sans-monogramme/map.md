@@ -37,6 +37,7 @@ L'implémentation reste hors carte.
 - [Choix de la typographie](issues/03-choix-de-la-typographie.md) : Overpass + Overpass Mono ; Recursive écartée car sans et mono trop proches ; la règle des labels du prototype n'a pas été contestée.
 - [Choix de la marque](issues/04-choix-de-la-marque.md) : le nom seul, « Romain Siré » ponctué du point shu, sans signe figuratif ; favicon « rs » + point shu ; seule l'image OG porte un signe, le rayon diagonal en deux coins ; le monogramme disparaît du hero, de la 404, d'À propos et des filigranes.
 - [Sort du tracé](issues/05-sort-du-trace.md) : le tracé disparaît sans remplaçant, la révélation devient la seule apparition ; `--dur-seal` supprimé ; le nouvel ADR remplace 0005 et amende 0004 et 0003 ; entrée Tracé retirée du glossaire. L'étude de cas du portfolio est corrigée dans le retrait provisoire.
+- [Température de l'encre et du washi](issues/06-temperature-de-l-encre-et-du-washi.md) : bleu (OKLCH 250) ; encre teintée (niveau 2, `#090f15`), washi presque neutre (niveau 1, `#ebf2fb`) ; acier, cendre, kasumi suivent ; hamon et shu inchangés ; AA tenu partout.
 
 ## Not yet specified
 

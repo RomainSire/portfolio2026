@@ -2,11 +2,11 @@
 
 Type: grilling
 Status: open
-Blocked by: 05
+Blocked by: 05, 06
 
 ## Question
 
-Une fois Overpass, le nom seul et une encre plus chaude en place, le site
+Une fois Overpass, le nom seul et une encre teintée de bleu en place, le site
 a-t-il encore besoin d'un élément personnel pour ne plus ressembler à un rendu
 généré ? Si oui, de quelle famille : écriture manuscrite (par exemple le nom
 ou une signature, que le tracé pourrait dessiner), matière photographique sans
@@ -21,3 +21,6 @@ décorative » ? Pas de photo de Romain.
   manuscrit qui se dessinerait serait une nouvelle apparition à partir de
   rien, à justifier ici, avec son propre jeton et son ADR.
 - Diagnostic : `issues/01-diagnostic-du-fait-ia.md`.
+- « Température de l'encre et du washi » (`issues/06-temperature-de-l-encre-et-du-washi.md`) :
+  encre et washi teintés de bleu, pas réchauffés. Le shu devient le seul
+  accent chaud du site.

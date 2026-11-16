@@ -54,7 +54,11 @@ L'ensemble des règles héritées de la charte v1.0 : la règle *droit + arc*,
 le *rayon diagonal* (deux coins opposés arrondis, deux à angle vif), la
 palette encre/acier/cendre/kasumi/washi/hamon/shu, la *règle du shu* (le
 rouge ponctue, ne remplit jamais), les filets à 0,5 px, la courbe
-d'accélération unique.
+d'accélération unique, et le *partage mono/sans* (le monospace tient la
+structure, le sans tient le discours).
+
+La palette désigne sept couleurs nommées, leurs rôles et leurs relations,
+pas des valeurs : une encre peut changer de teinte et rester l'encre.
 
 ## Travaux
 

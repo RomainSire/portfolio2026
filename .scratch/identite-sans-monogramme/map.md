@@ -17,8 +17,10 @@ L'implémentation reste hors carte.
 - Le retrait provisoire se fait **hors carte**, tout de suite :
   `.scratch/retrait-monogramme/`. La carte décide sans urgence.
 - Le **système formel** est conservé (palette, rayon diagonal, règle du shu,
-  filets, courbe unique, droit + arc). On cherche les 2 ou 3 éléments qui font
-  générique et on les remplace ; pas de redesign complet.
+  filets, courbe unique, droit + arc, partage mono/sans). Pour la palette,
+  ce sont les noms, les rôles et les relations qui sont conservés ; les
+  valeurs hexadécimales sont ajustables. On remplace les éléments qui font
+  générique, autant qu'il le faut, sans aller jusqu'au redesign complet.
 - Toute ressource nouvelle (typo, forme) doit être libre sans ambiguïté :
   OFL ou création propre, auto-hébergée.
 - Lire `CONTEXT.md` et les ADR 0001 à 0005 avant chaque ticket. Grilling :
@@ -30,6 +32,7 @@ L'implémentation reste hors carte.
 
 <!-- une ligne par ticket résolu -->
 
+- [Diagnostic : qu'est-ce qui fait « AI made » ?](issues/01-diagnostic-du-fait-ia.md) : quatre éléments à changer, le couple Geist, les labels mono en capitales (mono réservée aux données, en bas de casse), la pastille et la température de l'encre et du washi ; le hero, les filets et le point shu restent.
 - [Typographies libres candidates](issues/02-typographies-libres-candidates.md) : 12 couples OFL vérifiés ; tête de liste Overpass, Sono, Iosevka Charon, Recursive.
 
 ## Not yet specified
@@ -38,8 +41,6 @@ L'implémentation reste hors carte.
   photo de Romain. Le reste est ouvert (écriture manuscrite, matière
   photographique non portrait, autre). À revoir une fois typo et marque
   tranchées.
-- **La composition** : si le diagnostic du « fait IA » pointe autre chose
-  que la typo (labels en mono, grille, densité), ce qu'on en change.
 - **La rédaction finale** : spec consolidée, nouvel ADR (remplacement du
   monogramme, statut d'ADR-0002 et ADR-0005), entrées Monogramme / Tracé /
   Système formel de `CONTEXT.md`.
@@ -50,6 +51,8 @@ L'implémentation reste hors carte.
 - Un redesign complet repartant d'une page blanche : déjà écarté par
   ADR-0001, et confirmé ici.
 - Une photo de Romain sur le site.
+- La rédaction du site : on ne touche pas au texte, à la seule exception de
+  la ligne de la pastille de disponibilité (voir le diagnostic).
 - La refonte des supports hors site (charte PDF v1.0, bannière LinkedIn, CV) :
   ils suivront la spec, ailleurs. La charte de référence devient
   `CONTEXT.md` + ADR ; pas de réédition du PDF.

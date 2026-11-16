@@ -1,0 +1,269 @@
+---
+/*
+ * PROTOTYPE — à jeter. Ticket « Choix de la marque »
+ * (.scratch/identite-sans-monogramme/issues/04-choix-de-la-marque.md).
+ *
+ * Cinq variantes sur les vraies pages, via `?variant=` (ou ← →) :
+ *   actuel  le monogramme Adobe Stock (référence, à retirer)
+ *   coins   (a) le rayon diagonal comme signe, ouvert : deux coins arrondis
+ *   cadre   (a) le rayon diagonal comme signe, fermé : un cadre de panneau
+ *   sr      (b) un SR monoline, droites et arcs d'un rayon unique
+ *   nom     (c) le nom seul, ponctué du point shu
+ *
+ * Partout : Overpass + Overpass Mono et la règle des labels du ticket
+ * « Choix de la typographie » (décision prise, simplement appliquée ici).
+ * Le bouton « Planche » montre le favicon et l'image OG de la variante ;
+ * l'onglet du navigateur prend aussi le favicon de la variante.
+ * Le tracé de l'accueil se rejoue sur les signes (a) et (b) : recharger.
+ *
+ * Rendu seulement en dev (Base.astro), styles en `is:inline`.
+ */
+import { SIGNES, svgSigne } from "./PrototypeMarqueSignes";
+const signes = Object.fromEntries(SIGNES.map((s) => [s.cle, { svg: svgSigne(s, "#f4f1ea"), ratio: s.ratio }]));
+---
+
+<style is:inline>
+	@font-face { font-family: "P Overpass"; src: url("/fonts/prototype/overpass.woff2") format("woff2-variations"); font-weight: 100 900; font-display: swap; }
+	@font-face { font-family: "P Overpass Mono"; src: url("/fonts/prototype/overpass-mono.woff2") format("woff2-variations"); font-weight: 300 700; font-display: swap; }
+
+	/* --- Typo décidée : Overpass, nouvelle règle des labels ---------------- */
+	html { --sans: "P Overpass", sans-serif; --mono: "P Overpass Mono", monospace; }
+	.chrome { text-transform: none; letter-spacing: 0; font-size: 0.75rem; }
+	:is(.chrome.lbl, h2.chrome, h3.chrome, .links, .col > p.chrome, .top > p.chrome,
+		.wrap > p.chrome:not(.maj):not(.code), .pg .chrome, .crumbs, .wrap span.chrome) {
+		font-family: var(--sans);
+		font-size: var(--t-caption);
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+	.links { font-weight: 400; font-size: var(--t-caption); }
+
+	/* --- Signes ----------------------------------------------------------- */
+	.p-sign { display: none; width: 100%; height: 100%; }
+	.p-sign svg { display: block; width: 100%; height: 100%; }
+	html:not([data-marque="actuel"]) .mono > svg { display: none; }
+	html[data-marque="coins"] .p-s-coins,
+	html[data-marque="cadre"] .p-s-cadre,
+	html[data-marque="sr"] .p-s-sr { display: block; }
+	html[data-marque="coins"] .mono,
+	html[data-marque="cadre"] .mono { width: var(--s); }
+	html[data-marque="sr"] .mono { width: calc(var(--s) * 1.348); }
+	html[data-marque="nom"] .mono { display: none !important; }
+
+	/* Le nom : seul dans le header en (c), ponctué du shu, jamais masqué. */
+	.p-nom-shu { display: none !important; }
+	html[data-marque="nom"] .p-nom-shu { display: inline-block !important; }
+	html[data-marque="nom"] .brand .name { display: inline !important; font-size: var(--t-body); font-weight: 600; letter-spacing: -0.01em; }
+
+	/* Tracé : les signes candidats poussent depuis leurs germes. */
+	.mono.seal .p-sign path { stroke-dasharray: 1 2; stroke-dashoffset: 0; }
+	html:not([data-seal="done"]) .mono.seal .p-sign path { animation: p-trace var(--dur-seal) var(--ease) both; }
+	@keyframes p-trace { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+	@media (prefers-reduced-motion: reduce) { .mono.seal .p-sign path { animation: none !important; } }
+
+	/* --- Barre de bascule (hors design évalué) ---------------------------- */
+	#p-bar {
+		position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 1000;
+		display: flex; align-items: center; gap: 4px; padding: 4px;
+		background: #ffe600; color: #000; border: 2px solid #000; border-radius: 999px;
+		box-shadow: 0 6px 24px rgb(0 0 0 / 0.45);
+		font: 600 13px/1 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+	}
+	#p-bar button { all: unset; cursor: pointer; padding: 8px 12px; border-radius: 999px; }
+	#p-bar button:hover { background: rgb(0 0 0 / 0.1); }
+	#p-bar output { min-width: 15em; text-align: center; white-space: nowrap; }
+	#p-bar .sep { width: 1px; align-self: stretch; background: rgb(0 0 0 / 0.25); margin-inline: 4px; }
+
+	/* --- Planche favicon + OG -------------------------------------------- */
+	#p-planche {
+		position: fixed; inset: 0; z-index: 999; overflow: auto;
+		background: rgb(20 20 20 / 0.96); color: #eee; padding: 32px 24px 96px;
+		font: 400 13px/1.4 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+	}
+	#p-planche[hidden] { display: none; }
+	#p-planche h2 { font: 600 12px/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: #ffe600; margin: 0 0 12px; }
+	#p-planche section { max-width: 960px; margin: 0 auto 36px; }
+	.p-icons { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-end; }
+	.p-icons figure { margin: 0; display: grid; gap: 8px; justify-items: start; }
+	.p-icons figcaption { color: #999; font-size: 12px; }
+	.p-tab { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px 8px 0 0; font: 12px system-ui, sans-serif; min-width: 200px; }
+	.p-tab.sombre { background: #35363a; color: #e8e8e8; }
+	.p-tab.clair { background: #ffffff; color: #222; }
+	.p-tab img { width: 16px; height: 16px; }
+	.p-og { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 0 0 1px #444; }
+	.p-li { background: #1b1f23; border-radius: 8px; overflow: hidden; max-width: 552px; box-shadow: 0 0 0 1px #444; }
+	.p-li .p-og { border-radius: 0; box-shadow: none; }
+	.p-li p { margin: 0; padding: 10px 14px; color: #ddd; font: 600 14px system-ui, sans-serif; }
+	.p-li small { display: block; color: #999; font-weight: 400; font-size: 12px; margin-top: 2px; }
+</style>
+
+<div id="p-planche" hidden transition:persist="p-planche">
+	<section>
+		<h2>Favicon</h2>
+		<div class="p-icons">
+			<figure><div class="p-tab sombre"><img data-fav alt="" /> Romain Siré</div><figcaption>onglet, thème sombre (16 px)</figcaption></figure>
+			<figure><div class="p-tab clair"><img data-fav alt="" /> Romain Siré</div><figcaption>onglet, thème clair (16 px)</figcaption></figure>
+			<figure><img data-fav alt="" width="32" height="32" /><figcaption>32 px</figcaption></figure>
+			<figure><img data-fav alt="" width="64" height="64" /><figcaption>64 px</figcaption></figure>
+			<figure><img data-fav alt="" width="180" height="180" style="border-radius:40px" /><figcaption>180 px (écran d'accueil iOS)</figcaption></figure>
+		</div>
+	</section>
+	<section>
+		<h2>Image OG (1200 × 630)</h2>
+		<div data-og></div>
+	</section>
+	<section>
+		<h2>Aperçu de partage LinkedIn</h2>
+		<div class="p-li"><div data-og></div><p>Romain Siré<small>romainsire.fr</small></p></div>
+	</section>
+</div>
+
+<div id="p-bar" transition:persist="p-bar" aria-label="Prototype : marque">
+	<button type="button" data-step="-1" aria-label="Variante précédente">←</button>
+	<output></output>
+	<button type="button" data-step="1" aria-label="Variante suivante">→</button>
+	<span class="sep"></span>
+	<button type="button" data-planche>Planche</button>
+	<button type="button" data-rejouer title="Recharge l'accueil : le tracé se joue au chargement">Tracé ↻</button>
+</div>
+
+<script is:inline define:vars={{ signes }}>
+	(function () {
+		var V = [
+			["actuel", "monogramme actuel (réf.)"],
+			["coins", "(a) rayon diagonal · coins"],
+			["cadre", "(a) rayon diagonal · cadre"],
+			["sr", "(b) SR construit"],
+			["nom", "(c) le nom seul"],
+		];
+		var keys = V.map(function (v) { return v[0]; });
+		var KEY = "p-marque";
+		var INK = "#0b0d0e", WASHI = "#f4f1ea", ASH = "#767b7d", SHU = "#c8402a";
+
+		function current() {
+			var q = new URL(location.href).searchParams.get("variant");
+			if (q && keys.indexOf(q) >= 0) return q;
+			try { var s = sessionStorage.getItem(KEY); if (s && keys.indexOf(s) >= 0) return s; } catch (e) {}
+			return "coins";
+		}
+
+		/* --- Favicon : rendu canvas, pour que la webfont serve aussi au (c). */
+		function favicon(k, px) {
+			var c = document.createElement("canvas");
+			c.width = c.height = px;
+			var x = c.getContext("2d");
+			x.fillStyle = INK;
+			x.fillRect(0, 0, px, px);
+			return new Promise(function (ok) {
+				if (k === "nom") {
+					document.fonts.load('600 20px "P Overpass"').then(function () {
+						x.fillStyle = WASHI;
+						x.font = "600 " + px * 0.62 + 'px "P Overpass"';
+						x.textBaseline = "alphabetic";
+						x.fillText("rs", px * 0.13, px * 0.7);
+						x.fillStyle = SHU;
+						x.beginPath();
+						x.arc(px * 0.8, px * 0.64, px * 0.075, 0, 7);
+						x.fill();
+						ok(c.toDataURL());
+					});
+					return;
+				}
+				var src;
+				if (k === "actuel") {
+					ok("/favicon.svg");
+					return;
+				}
+				src = signes[k].svg;
+				var img = new Image();
+				img.onload = function () {
+					var h = px * (k === "sr" ? 0.5 : 0.62);
+					var w = h * signes[k].ratio;
+					x.drawImage(img, (px - w) / 2, (px - h) / 2, w, h);
+					ok(c.toDataURL());
+				};
+				img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src);
+			});
+		}
+
+		/* --- Image OG : même mise en page que resources/og.svg. */
+		function og(k) {
+			var sign = "";
+			if (k === "actuel") {
+				sign = '<image href="/favicon.svg" x="96" y="72" width="200" height="200" />';
+			} else if (k !== "nom") {
+				var h = k === "sr" ? 150 : 160;
+				var w = h * signes[k].ratio;
+				sign = '<svg x="96" y="' + (k === "sr" ? 104 : 92) + '" width="' + w + '" height="' + h + '"' +
+					signes[k].svg.slice(4);
+			}
+			var nom = k === "nom"
+				? '<text x="96" y="240" fill="' + WASHI + '" style="font-family:\'P Overpass\';font-weight:600;font-size:132px;letter-spacing:-5px">Romain Siré<tspan fill="' + SHU + '">.</tspan></text>'
+				: '<text x="96" y="407" fill="' + WASHI + '" style="font-family:\'P Overpass\';font-weight:500;font-size:58px;letter-spacing:-2.32px">Romain Siré</text>';
+			var sous = k === "nom" ? 407 : 460;
+			return '<svg class="p-og" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">' +
+				'<rect width="1200" height="630" fill="' + INK + '"/>' + sign +
+				'<line x1="96" y1="329.5" x2="1104" y2="329.5" stroke="#c9c6be" stroke-opacity=".2"/>' + nom +
+				'<text x="96" y="' + sous + '" fill="' + ASH + '" style="font-family:\'P Overpass\';font-size:26px">' +
+				'<tspan x="96">Développeur indépendant</tspan><tspan x="96" dy="32.5">Dix ans d’ingénierie dans l’énergie</tspan></text>' +
+				'<text x="96" y="' + (sous + 83) + '" fill="' + ASH + '" style="font-family:\'P Overpass Mono\';font-size:18px">typescript · react · astro · toulouse</text>' +
+				(k === "nom" ? "" : '<circle cx="1096.5" cy="530.5" r="14.4" fill="' + SHU + '"/>') +
+				"</svg>";
+		}
+
+		function render(k) {
+			favicon(k, 64).then(function (u) {
+				document.querySelectorAll("link[rel=icon]").forEach(function (l) { l.href = u; l.type = ""; });
+			});
+			favicon(k, 180).then(function (u) {
+				document.querySelectorAll("#p-planche img[data-fav]").forEach(function (i) { i.src = u; });
+			});
+			document.querySelectorAll("#p-planche [data-og]").forEach(function (d) { d.innerHTML = og(k); });
+		}
+
+		function apply(k) {
+			document.documentElement.setAttribute("data-marque", k);
+			try { sessionStorage.setItem(KEY, k); } catch (e) {}
+			var u = new URL(location.href);
+			if (u.searchParams.get("variant") !== k) {
+				u.searchParams.set("variant", k);
+				history.replaceState(history.state, "", u);
+			}
+			var i = keys.indexOf(k);
+			var out = document.querySelector("#p-bar output");
+			if (out) out.textContent = i + 1 + "/" + V.length + " · " + V[i][1];
+			render(k);
+		}
+
+		function step(n) {
+			var i = keys.indexOf(current());
+			apply(keys[(i + n + keys.length) % keys.length]);
+		}
+
+		apply(current());
+		if (new URL(location.href).searchParams.has("planche")) document.getElementById("p-planche").hidden = false;
+
+		if (!window.__pMarque) {
+			window.__pMarque = 1;
+			document.addEventListener("astro:after-swap", function () { apply(current()); });
+			document.addEventListener("click", function (e) {
+				var b = e.target.closest && e.target.closest("#p-bar button");
+				if (!b) return;
+				if (b.dataset.step) step(+b.dataset.step);
+				if (b.hasAttribute("data-planche")) {
+					var p = document.getElementById("p-planche");
+					p.hidden = !p.hidden;
+				}
+				if (b.hasAttribute("data-rejouer")) location.href = "/?variant=" + current();
+			});
+			document.addEventListener("keydown", function (e) {
+				var t = e.target;
+				if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+				if (e.key === "ArrowLeft") step(-1);
+				if (e.key === "ArrowRight") step(1);
+				if (e.key === "Escape") document.getElementById("p-planche").hidden = true;
+			});
+		}
+	})();
+</script>

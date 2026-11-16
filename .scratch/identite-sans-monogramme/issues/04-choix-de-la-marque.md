@@ -1,7 +1,7 @@
 # Choix de la marque
 
 Type: prototype
-Status: open
+Status: claimed
 Blocked by: 03
 
 ## Question
@@ -15,3 +15,6 @@ Contrainte souple : (a) et (b) doivent pouvoir se tracer.
 ## Contexte
 
 - Typo choisie : Overpass + Overpass Mono (`issues/03-choix-de-la-typographie.md`).
+- Prototype : branche `prototype/choix-marque`
+  (`src/components/PrototypeMarque.astro`, `?variant=` sur les vraies pages,
+  `&planche` pour le favicon et l'image OG).

@@ -15,6 +15,9 @@ const strip = (svg: string) => svg.replace(/<!--[\s\S]*?-->/g, "").replace(/<\/?
 const inner = strip((await import("../assets/monogram.svg?raw")).default);
 /** La médiane n'est chargée que pour le tracé : le header n'en a pas l'usage. */
 const pens = seal ? strip((await import("../assets/monogram-trace.svg?raw")).default) : "";
+/* PROTOTYPE — à jeter : signes candidats du ticket « Choix de la marque ». */
+import { SIGNES, svgSigne } from "./PrototypeMarqueSignes";
+const dev = import.meta.env.DEV;
 ---
 
 <span class:list={["mono", cls, { seal }]} style={`--s:${size}px`} aria-hidden={cls.includes("decor")}>
@@ -39,6 +42,7 @@ const pens = seal ? strip((await import("../assets/monogram-trace.svg?raw")).def
 		}
 		<g mask={seal ? "url(#mono-trace)" : undefined} set:html={inner} />
 	</svg>
+	{dev && SIGNES.map((sg) => <span class={`p-sign p-s-${sg.cle}`} set:html={svgSigne(sg)} />)}
 </span>
 
 <style>

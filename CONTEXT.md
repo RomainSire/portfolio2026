@@ -13,7 +13,9 @@ mentions légales. Ses formes réduites (« rs » du favicon) restent du nom.
 Le site a porté un **monogramme** SR ; il est retiré et n'a pas de
 remplaçant. On ne parle donc ni de « logo » ni de « monogramme » pour la
 marque actuelle. Le rayon diagonal qui figure sur l'image de partage n'est
-pas une marque : c'est un élément du système formel, et il ne paraît que là.
+pas une marque : c'est un élément du système formel, et il ne paraît que là
+et sur le panneau sans visuel de l'étude de cas « Ce portfolio », toujours
+en grand.
 
 Le nom « sori » et le kanji 反り de la charte v1.0 sont **abandonnés**. Le
 système formel qui en découlait (droit + arc, rayon diagonal, palette,

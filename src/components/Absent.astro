@@ -8,11 +8,21 @@ interface Props {
 	raison: string;
 	stack: string[];
 	grand?: boolean;
+	/** Rayon diagonal en tête du panneau, le même que sur l'image de partage. */
+	rayon?: boolean;
 }
-const { raison, stack, grand = false } = Astro.props;
+const { raison, stack, grand = false, rayon = false } = Astro.props;
 ---
 
 <div class:list={["absent", { grand }]}>
+	{
+		rayon && (
+			<svg class="rayon" viewBox="0 0 24 24" aria-hidden="true">
+				<path d="M2 15V10A8 8 0 0 1 10 2H15" />
+				<path d="M22 9V14A8 8 0 0 1 14 22H9" />
+			</svg>
+		)
+	}
 	<p class="chrome liste">{stack.join(" · ")}</p>
 	<p class="raison caption">{raison}</p>
 </div>
@@ -38,6 +48,18 @@ const { raison, stack, grand = false } = Astro.props;
 	.absent.grand {
 		min-height: clamp(220px, 34vw, 380px);
 		padding: clamp(24px, 4vw, 40px);
+	}
+	.rayon {
+		width: clamp(56px, 16vw, 72px);
+		height: auto;
+		margin-bottom: auto;
+		fill: none;
+		stroke: var(--fg);
+		stroke-width: 2.6;
+		stroke-linecap: butt;
+	}
+	.grand .rayon {
+		width: clamp(88px, 14vw, 160px);
 	}
 	.liste {
 		color: var(--fg);

@@ -32,6 +32,8 @@ const travaux = defineCollection({
 			visuelAlt: z.string().optional(),
 			/** Pas de capture diffusable : traitement typographique pur. */
 			sansVisuel: z.string().optional(),
+			/** Le panneau sans visuel porte le rayon diagonal, comme l'image de partage. */
+			rayon: z.boolean().default(false),
 			/** L'ordre de la liste est le discours. Voir CONTEXT.md. */
 			ordre: z.number(),
 		}),

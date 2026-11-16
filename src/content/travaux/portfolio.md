@@ -9,6 +9,7 @@ role: "Charte graphique, conception, développement, déploiement."
 ordre: 5
 visuelAlt: "Page d'accueil de ce site."
 sansVisuel: "Vous la regardez."
+rayon: true
 stack: ["Astro", "TypeScript", "CSS", "Docker", "nginx", "Claude Code"]
 contraintes:
   - titre: "Le précédent portfolio avait vieilli en deux ans"

@@ -39,15 +39,11 @@ L'implémentation reste hors carte.
 - [Sort du tracé](issues/05-sort-du-trace.md) : le tracé disparaît sans remplaçant, la révélation devient la seule apparition ; `--dur-seal` supprimé ; le nouvel ADR remplace 0005 et amende 0004 et 0003 ; entrée Tracé retirée du glossaire. L'étude de cas du portfolio est corrigée dans le retrait provisoire.
 - [Température de l'encre et du washi](issues/06-temperature-de-l-encre-et-du-washi.md) : bleu (OKLCH 250) ; encre teintée (niveau 2, `#090f15`), washi presque neutre (niveau 1, `#ebf2fb`) ; acier, cendre, kasumi suivent ; hamon et shu inchangés ; AA tenu partout.
 - [Élément personnel](issues/07-element-personnel.md) : aucun ; jugé sur le rendu combiné, le site ne paraît plus généré. « Trop froid » voulait dire impersonnel, pas une température.
+- [Transition de page](issues/08-transition-de-page.md) : on garde le fondu croisé actuel, jugé plus fluide que les cinq autres ; la coupe qui traverse était l'idée de départ, mais elle reste en deçà ; ADR-0003 et l'entrée Galerie inchangés à ce titre.
 
 ## Not yet specified
 
-- **La rédaction finale** : spec consolidée, nouvel ADR (remplacement du
-  monogramme ; ce qu'il fait d'ADR-0003, 0004 et 0005 est fixé par « Sort du
-  tracé »), entrées Monogramme / Tracé / Apparition / Révélation / Système
-  formel de `CONTEXT.md`. Elle attend « Transition de page »
-  (`issues/08-transition-de-page.md`), qui peut amender ADR-0003 et l'entrée
-  Galerie.
+Rien : la rédaction finale est devenue un ticket, « [Rédaction finale](issues/09-redaction-finale.md) ».
 
 ## Out of scope
 

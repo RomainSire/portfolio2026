@@ -1,7 +1,7 @@
 # Transition de page
 
 Type: prototype
-Status: open
+Status: resolved
 Blocked by: 07
 
 ## Question
@@ -59,3 +59,38 @@ cas → contact), mais chacun s'applique à **toute** navigation interne :
   « Sort du tracé » en retire déjà, et l'entrée Galerie de `CONTEXT.md`
   (« porté par le fondu de navigation ») sera à reprendre à la rédaction
   finale.
+
+## Answer
+
+**On garde le fondu croisé actuel.** Jugé sur pièce, aux bascules de
+registre et en navigation ordinaire : c'est la transition la plus fluide des
+six. La coupe qui traverse (3a) était l'idée de départ et tient le mieux
+parmi les autres, mais elle reste en deçà d'un simple fondu. La coupe puis
+ouverture (3b), le balayage, le rideau et la coupe franche sont écartés.
+
+Conséquences :
+
+- l'ADR-0003 n'est pas amendé au titre de ce ticket (seul « Sort du tracé »
+  y retire ce qui concerne le sceau) ;
+- l'entrée Galerie de `CONTEXT.md` (« porté par le fondu de navigation »)
+  reste juste ;
+- rien à ajouter à la spec : ni nouveau jeton, ni nouvel ADR de mouvement.
+
+Prototype : branche `prototype/transition-page`.
+
+## Comments
+
+- Précision de Romain en ouvrant le ticket : la coupe diagonale
+  « correspondrait au mouvement que ferait un katana qui coupe la page ».
+  Le mot reste interne (ADR-0001) ; côté visiteur, on dit « coupe diagonale ».
+  Le candidat 3 est donc dédoublé, pour trancher sur pièce :
+  - **3a, coupe qui traverse** : la ligne de coupe balaie l'écran de bas
+    gauche à haut droit, la nouvelle page derrière elle ;
+  - **3b, coupe puis ouverture** (la lecture « geste du sabre ») : la coupe
+    file d'abord du coin haut gauche au coin bas droit (40 % du temps), puis
+    la page s'ouvre de part et d'autre de la ligne (60 %).
+  Pour les deux : cambrure (droite, légère, moyenne, marquée), rotation
+  (aucune, inclinaison fixe de 4°, pivot de −4° à +4°), 320 ms au total.
+- Prototype : branche `prototype/transition-page` (partie du rendu combiné),
+  `src/components/PrototypeTransition.astro`, monté en dev dans `Base.astro`.
+  Arbre de travail séparé : `../portfolio2026-transition`.

@@ -2,16 +2,16 @@
 
 /* --- Polices ------------------------------------------------------------- */
 @font-face {
-	font-family: Geist;
-	src: url("/fonts/geist.woff2") format("woff2-variations");
-	font-weight: 400 500;
+	font-family: Overpass;
+	src: url("/fonts/overpass.woff2") format("woff2-variations");
+	font-weight: 400 600;
 	font-display: swap;
 	font-style: normal;
 }
 
 @font-face {
-	font-family: "Geist Mono";
-	src: url("/fonts/geist-mono.woff2") format("woff2-variations");
+	font-family: "Overpass Mono";
+	src: url("/fonts/overpass-mono.woff2") format("woff2-variations");
 	font-weight: 400 500;
 	font-display: swap;
 	font-style: normal;
@@ -103,16 +103,30 @@ strong {
 	font-weight: 500;
 }
 
-/* Le monospace tient la structure, le sans tient le discours.
-   Un support où tout est en sans n'est pas à la marque. */
+/* Le monospace tient les données, le sans tient le discours.
+   `.chrome` compose une donnée : fiche d'étude de cas, date, période, stack,
+   numéro d'index, pastille de disponibilité. En bas de casse, sans
+   interlettrage : plus de capitales espacées nulle part.
+   `.label` compose ce qui nomme ou oriente — titre de section, intitulé,
+   fil d'Ariane : du discours, donc du sans. La navigation, sans elle aussi,
+   a son propre style dans `Header`. */
+.chrome,
+.label {
+	color: var(--fg-muted);
+	line-height: 1.2;
+}
+
 .chrome {
 	font-family: var(--mono);
 	font-size: var(--t-chrome);
 	font-weight: 400;
-	letter-spacing: var(--tr-caps);
-	text-transform: uppercase;
-	color: var(--fg-muted);
-	line-height: 1.2;
+}
+
+.label {
+	font-family: var(--sans);
+	font-size: var(--t-caption);
+	font-weight: 500;
+	letter-spacing: 0;
 }
 
 .caption {
@@ -159,10 +173,10 @@ a:hover {
 	width: 100%;
 }
 
-/* --- Sceau shu : ponctue, ne remplit jamais -------------------------------
-   Le point n'est pas un glyphe : le point typographique de Geist est carré,
-   or le système n'est fait que de segments droits et d'arcs d'un rayon
-   unique. On le dessine donc, comme le monogramme. */
+/* --- Point shu : ponctue, ne remplit jamais --------------------------------
+   Le point n'est pas un glyphe : le point typographique d'Overpass n'est pas
+   un disque d'un rayon unique, or le système n'est fait que de segments
+   droits et d'arcs d'un rayon unique. On le dessine donc. */
 .shu {
 	display: inline-block;
 	width: 0.25em;
@@ -171,7 +185,7 @@ a:hover {
 	min-height: 5px;
 	margin-left: 0.05em;
 	border-radius: 50%;
-	background: var(--seal);
+	background: var(--shu-point);
 	vertical-align: baseline;
 }
 

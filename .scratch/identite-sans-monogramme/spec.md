@@ -10,12 +10,11 @@ Avant d'implémenter, lire `CONTEXT.md` et les ADR 0001, 0003, 0004 et 0006.
 
 ## Point de départ
 
-Le **retrait provisoire** (`.scratch/retrait-monogramme/issues/01-retrait-provisoire.md`)
-est fait avant cette spec, ou en même temps : `<Monogram>`, les SVG du signe,
-le script du tracé et ses styles ont disparu, le favicon et l'image OG sont
-des versions typographiques provisoires en Geist Mono, l'étude de cas du
-portfolio est corrigée. La spec part de cet état et remplace les pièces
-provisoires par les définitives.
+Le retrait provisoire prévu hors carte n'a pas été fait : on passe
+directement à l'état définitif. Le retrait du monogramme, du tracé et la
+correction de l'étude de cas du portfolio sont repris dans le ticket
+[10](issues/10-retrait-du-monogramme-et-du-trace.md). Tickets
+d'implémentation : 10 à 13 dans `issues/`.
 
 ## 1. Typographie : Overpass + Overpass Mono
 

@@ -1,5 +1,4 @@
 ---
-import Monogram from "./Monogram.astro";
 const year = new Date().getFullYear();
 const mail = ["romainsirepro", "gmail.com"];
 ---
@@ -8,7 +7,7 @@ const mail = ["romainsirepro", "gmail.com"];
 	<hr class="rule" />
 	<div class="shell grid">
 		<div class="col">
-			<p class="chrome">Écrire</p>
+			<p class="label">Écrire</p>
 			<p>
 				<a class="mail" data-user={mail[0]} data-host={mail[1]} href="#" rel="nofollow">
 					{mail[0]}<span aria-hidden="true"> [arobase] </span>{mail[1]}
@@ -16,14 +15,14 @@ const mail = ["romainsirepro", "gmail.com"];
 			</p>
 		</div>
 		<div class="col">
-			<p class="chrome">Ailleurs</p>
+			<p class="label">Ailleurs</p>
 			<ul>
 				<li><a href="https://www.linkedin.com/in/romainsire" rel="me">LinkedIn</a></li>
 				<li><a href="https://github.com/RomainSire" rel="me">GitHub</a></li>
 			</ul>
 		</div>
 		<div class="col">
-			<p class="chrome">Légal</p>
+			<p class="label">Légal</p>
 			<ul>
 				<li><a href="/mentions-legales">Mentions légales</a></li>
 				<li><a href="/cgv">CGV</a></li>
@@ -31,8 +30,7 @@ const mail = ["romainsirepro", "gmail.com"];
 			</ul>
 		</div>
 		<div class="col sign">
-			<Monogram size={22} class="decor" />
-			<p class="chrome">
+			<p class="label">
 				Romain Siré · {year}<span class="shu" aria-hidden="true"></span>
 			</p>
 		</div>
@@ -50,7 +48,7 @@ const mail = ["romainsirepro", "gmail.com"];
 		gap: var(--gutter);
 		padding-top: calc(var(--unit) * 4);
 	}
-	.col > .chrome {
+	.col > .label {
 		margin-bottom: 10px;
 	}
 	.col li + li {
@@ -64,15 +62,10 @@ const mail = ["romainsirepro", "gmail.com"];
 		border-bottom-color: currentColor;
 	}
 	.sign {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		align-items: flex-start;
 		color: var(--fg-muted);
 	}
 	@media (min-width: 900px) {
 		.sign {
-			align-items: flex-end;
 			text-align: right;
 		}
 	}

@@ -6,12 +6,12 @@
 
 :root {
 	/* --- Palette brute ---------------------------------------------------- */
-	--ink: #0b0d0e;
-	--steel: #2a2e30;
-	--ash: #767b7d;
-	--ash-deep: #656a6c; /* ajout : cendre lisible sur washi (4,86:1) */
-	--kasumi: #c9c6be;
-	--washi: #f4f1ea;
+	--ink: #090f15;
+	--steel: #262c32;
+	--ash: #787c81;
+	--ash-deep: #686c71; /* ajout : cendre lisible sur washi (4,69:1) */
+	--kasumi: #c0c6cd;
+	--washi: #ebf2fb;
 	--hamon: #8fa8b2;
 	--hamon-deep: #455c66; /* ajout : hamon lisible sur washi (6,26:1) */
 	--shu: #c8402a;
@@ -25,15 +25,15 @@
 	--rule: color-mix(in srgb, var(--kasumi) 20%, transparent);
 	--rule-strong: var(--steel);
 	--link: var(--hamon);
-	--seal: var(--shu);
+	--shu-point: var(--shu);
 	--selection: color-mix(in srgb, var(--hamon) 28%, transparent);
 
 	/* --- Typographie ------------------------------------------------------ */
-	--sans: Geist, -apple-system, "Segoe UI", Roboto, sans-serif;
-	--mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+	--sans: Overpass, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--mono: "Overpass Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
 	/* Échelle tierce majeure (1,25). Les deux plus grands corps sont fluides. */
-	--t-chrome: 0.6875rem; /* 11px — mono, labels, numéros */
+	--t-chrome: 0.75rem; /* 12px — mono, données */
 	--t-caption: 0.8125rem; /* 13px — légende, métadonnée */
 	--t-body: 0.9375rem; /* 15px — corps */
 	--t-lead: 1.1875rem; /* 19px — sous-titre */
@@ -41,10 +41,8 @@
 	--t-page: clamp(1.75rem, 1.05rem + 3.4vw, 2.75rem); /* 44px */
 	--t-display: clamp(2.25rem, 1rem + 6vw, 4.5rem); /* hors échelle : hero */
 
-	/* Interlettrage : −0,04em au-delà de 26px, 0 en dessous,
-	   +0,14em sur les capitales monospace. */
+	/* Interlettrage : −0,04em au-delà de 26px, 0 en dessous. */
 	--tr-tight: -0.04em;
-	--tr-caps: 0.14em;
 
 	--lh-tight: 1.08;
 	--lh-title: 1.16;
@@ -83,7 +81,6 @@
 
 	/* Apparition */
 	--dur-reveal: 600ms; /* révélation d'un bloc à l'entrée dans le cadre */
-	--dur-seal: 900ms; /* tracé du monogramme, une fois par document. ADR-0005. */
 
 	/* Opacité d'un bloc pas encore révélé. Non nulle : la révélation achève
 	   une arrivée, elle ne lève pas un rideau. Assez basse pour rester en
@@ -96,13 +93,13 @@
    Rupture franche, jamais un dégradé progressif au scroll. */
 [data-registre="galerie"] {
 	--bg: var(--washi);
-	--bg-raised: #fffdf8;
+	--bg-raised: #f9fcff;
 	--fg: var(--ink);
 	--fg-muted: var(--ash-deep);
 	--rule: var(--kasumi);
 	--rule-strong: var(--ash);
 	--link: var(--hamon-deep);
-	--seal: var(--shu-tx);
+	--shu-point: var(--shu-tx);
 	--selection: color-mix(in srgb, var(--hamon-deep) 22%, transparent);
 }
 

@@ -1,5 +1,4 @@
 ---
-import Monogram from "../components/Monogram.astro";
 import Base from "../layouts/Base.astro";
 
 const stack = {
@@ -15,7 +14,7 @@ const stack = {
 	description="Dix ans d'ingénierie et d'énergies renouvelables, puis le développement web. Parcours, méthode et outils de Romain Siré."
 >
 	<section class="shell top">
-		<p class="chrome">À propos</p>
+		<p class="label">À propos</p>
 		<h1 data-reveal>Ingénieur pendant dix ans,<br /> développeur aujourd'hui.</h1>
 	</section>
 
@@ -46,7 +45,6 @@ const stack = {
 		</div>
 
 		<aside class="side" data-reveal>
-			<Monogram size={40} class="decor" />
 			<dl class="facts chrome">
 				<div><dt>Statut</dt><dd>Indépendant</dd></div>
 				<div><dt>En mission</dt><dd>Notrelec</dd></div>
@@ -60,12 +58,12 @@ const stack = {
 	annonce, sinon le vide sous lui se lit comme une section repliée. */}
 	<section class="shell stack-wrap" aria-labelledby="s-t" data-reveal>
 		<hr class="rule" />
-		<h2 id="s-t" class="chrome lbl">Outils</h2>
+		<h2 id="s-t" class="label titre-section">Outils</h2>
 		<div class="cols">
 			{
 				Object.entries(stack).map(([k, v]) => (
 					<div>
-						<h3 class="chrome sub">{k}</h3>
+						<h3 class="label sub">{k}</h3>
 						<ul class="chips chrome">
 							{v.map((s) => (
 								<li>{s}</li>
@@ -82,7 +80,7 @@ const stack = {
 	.top {
 		padding-block: clamp(36px, 7vw, 72px) clamp(20px, 3vw, 32px);
 	}
-	.top .chrome {
+	.top .label {
 		margin-bottom: 20px;
 	}
 	h1 {
@@ -124,14 +122,12 @@ const stack = {
 	.facts dd {
 		margin: 0;
 		color: var(--fg);
-		text-transform: none;
-		letter-spacing: 0;
 		font-size: var(--t-caption);
 	}
 	.stack-wrap {
 		padding-bottom: 16px;
 	}
-	.lbl {
+	.titre-section {
 		margin-block: 24px 20px;
 	}
 	.cols {

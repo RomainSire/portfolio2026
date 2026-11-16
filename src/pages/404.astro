@@ -1,12 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
-import Monogram from "../components/Monogram.astro";
 ---
 
 <Base title="Page introuvable" description="Cette adresse ne correspond à aucune page de ce site.">
 	<section class="shell wrap">
-		<Monogram size={64} class="decor" />
-		<p class="chrome code">Erreur 404</p>
+		<p class="label">Erreur 404</p>
 		<h1>Cette adresse ne mène nulle part<span class="shu" aria-hidden="true"></span></h1>
 		<p class="lead measure sub">
 			La page a peut-être été déplacée, ou l'adresse comporte une faute. Les travaux sont tous listés sur la page
@@ -22,9 +20,6 @@ import Monogram from "../components/Monogram.astro";
 		display: grid;
 		gap: 20px;
 		justify-items: start;
-	}
-	.code {
-		margin-top: 12px;
 	}
 	h1 {
 		font-size: var(--t-page);

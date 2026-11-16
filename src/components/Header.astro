@@ -1,5 +1,4 @@
 ---
-import Monogram from "./Monogram.astro";
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const nav = [
 	{ href: "/", label: "Travaux" },
@@ -12,11 +11,10 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
 <header class="head">
 	<div class="shell row">
 		<a href="/" class="brand" aria-label="Romain Siré — accueil">
-			<Monogram size={26} />
-			<span class="name">Romain Siré</span>
+			<span class="name">Romain Siré<span class="shu" aria-hidden="true"></span></span>
 		</a>
 		<nav aria-label="Principale">
-			<ul class="chrome links">
+			<ul class="links">
 				{
 					nav.map((n) => (
 						<li>
@@ -44,26 +42,34 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--gutter);
+		gap: clamp(12px, 4vw, var(--gutter));
 		min-height: 64px;
 	}
 	.brand {
-		display: inline-flex;
-		align-items: center;
-		gap: 12px;
 		text-decoration: none;
 	}
 	.brand:hover {
 		color: inherit;
 	}
 	.name {
-		font-size: var(--t-caption);
-		font-weight: 500;
-		letter-spacing: 0.01em;
+		font-size: var(--t-body);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		white-space: nowrap;
 	}
+	/* La navigation se compose en sans, au corps d'un intitulé mais avec la
+	   graisse d'un lien, pas celle d'un titre.
+	   Aucun intitulé ne se coupe : à 320 px, le nom et la navigation tiennent
+	   sur une ligne, sans quoi « À propos » passerait à la ligne. */
 	.links {
+		font-family: var(--sans);
+		font-size: var(--t-caption);
+		font-weight: 400;
+		color: var(--fg-muted);
+		line-height: 1.2;
 		display: flex;
-		gap: clamp(16px, 3vw, 32px);
+		gap: clamp(12px, 3vw, 32px);
+		white-space: nowrap;
 	}
 	.links a {
 		text-decoration: none;
@@ -77,10 +83,5 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
 	.links a[aria-current="page"] {
 		color: var(--fg);
 		border-bottom-color: var(--rule-strong);
-	}
-	@media (max-width: 420px) {
-		.name {
-			display: none;
-		}
 	}
 </style>

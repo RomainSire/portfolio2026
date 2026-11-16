@@ -10,7 +10,7 @@ const host = "gmail.com";
 	description="Écrire à Romain Siré, développeur indépendant. Par email ou sur LinkedIn."
 >
 	<section class="shell wrap">
-		<p class="chrome">Contact</p>
+		<p class="label">Contact</p>
 		<h1 data-reveal>Un projet, une mission,<br />ou juste une question.</h1>
 		<p class="lead measure sub" data-reveal style="--reveal-delay:60ms">
 			Le plus utile, dans un premier message : sur quoi vous travaillez, et ce qui bloque.
@@ -18,17 +18,17 @@ const host = "gmail.com";
 
 		<ul class="ways" data-reveal style="--reveal-delay:120ms">
 			<li class="way">
-				<span class="chrome">Écrire</span>
+				<span class="label">Écrire</span>
 				<a class="big mail" data-user={user} data-host={host} href="#" rel="nofollow">
 					{user}<span aria-hidden="true"> [arobase] </span>{host}
 				</a>
 			</li>
 			<li class="way">
-				<span class="chrome">LinkedIn</span>
+				<span class="label">LinkedIn</span>
 				<a class="big" href="https://www.linkedin.com/in/romainsire" rel="me">in/romainsire</a>
 			</li>
 			<li class="way">
-				<span class="chrome">GitHub</span>
+				<span class="label">GitHub</span>
 				<a class="big" href="https://github.com/RomainSire" rel="me">RomainSire</a>
 			</li>
 		</ul>
@@ -44,7 +44,7 @@ const host = "gmail.com";
 	.wrap {
 		padding-block: clamp(36px, 7vw, 72px) clamp(40px, 8vw, 96px);
 	}
-	.wrap > .chrome {
+	.wrap > .label {
 		margin-bottom: 20px;
 	}
 	h1 {

@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import Monogram from "../components/Monogram.astro";
 import WorkRow from "../components/WorkRow.astro";
 import Base from "../layouts/Base.astro";
 
@@ -13,7 +12,6 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 	description="Développeur web indépendant (freelance) à Toulouse, dix ans d'ingénierie dans l'énergie. React et TypeScript pour l'autoconsommation, le photovoltaïque et la santé."
 >
 	<section class="hero shell">
-		<Monogram size={84} seal class="mark" />
 		<h1 class="display">
 			Développeur indépendant.<br />
 			Dix ans d'ingénierie dans l'énergie<span class="shu" aria-hidden="true"></span>
@@ -24,13 +22,13 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 			Mon cœur de métier reste le front-end, mais je m'occupe aussi de l'UX, du design, du back-end ou de l'infra lorsque c'est nécessaire.
 		</p>
 		<p class="chrome avail">
-			En mission chez Notrelec · Toulouse, sur site ou à distance
+			Actuellement en mission chez Notrelec · Toulouse
 		</p>
 	</section>
 
 	<section class="shell travaux" aria-labelledby="t-titre">
 		<div class="head">
-			<h2 id="t-titre" class="chrome">Travaux</h2>
+			<h2 id="t-titre" class="label">Travaux</h2>
 		</div>
 		{travaux.map((e, i) => <WorkRow entry={e} index={i + 1} />)}
 		<hr class="rule" />
@@ -40,10 +38,6 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 <style>
 	.hero {
 		padding-block: clamp(56px, 11vw, 128px) clamp(48px, 9vw, 96px);
-	}
-	.mark {
-		display: block;
-		margin-bottom: clamp(36px, 6vw, 52px);
 	}
 	.display {
 		font-size: var(--t-display);
@@ -73,9 +67,5 @@ const travaux = (await getCollection("travaux")).sort((a, b) => a.data.ordre - b
 		gap: var(--gutter);
 		flex-wrap: wrap;
 		margin-bottom: 18px;
-	}
-	.count {
-		text-transform: none;
-		letter-spacing: 0;
 	}
 </style>

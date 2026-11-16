@@ -20,7 +20,7 @@ const { Content } = await render(entry);
 <Base title={d.titre} description={d.accroche}>
 	<article>
 		<header class="shell top">
-			<p class="chrome crumbs">
+			<p class="label crumbs">
 				<a href="/">Travaux</a> <span aria-hidden="true">/</span>
 				<span>{d.nature}</span>
 			</p>
@@ -51,12 +51,12 @@ const { Content } = await render(entry);
 			</section>
 
 			<section class="bloc" data-reveal>
-				<h2 class="chrome lbl">Rôle</h2>
+				<h2 class="label titre-section">Rôle</h2>
 				<p class="measure">{d.role}</p>
 			</section>
 
 			<section class="bloc" data-reveal>
-				<h2 class="chrome lbl">La contrainte</h2>
+				<h2 class="label titre-section">La contrainte</h2>
 				<ol class="items">
 					{
 						d.contraintes.map((c, i) => (
@@ -71,7 +71,7 @@ const { Content } = await render(entry);
 			</section>
 
 			<section class="bloc" data-reveal>
-				<h2 class="chrome lbl">Décisions</h2>
+				<h2 class="label titre-section">Décisions</h2>
 				<ol class="items">
 					{
 						d.decisions.map((c, i) => (
@@ -86,19 +86,19 @@ const { Content } = await render(entry);
 			</section>
 
 			<section class="bloc" data-reveal>
-				<h2 class="chrome lbl">Résultat</h2>
+				<h2 class="label titre-section">Résultat</h2>
 				<p class="measure">{d.resultat}</p>
 			</section>
 
 			<section class="bloc tech" data-reveal>
 				<div>
-					<h2 class="chrome lbl">Technique</h2>
+					<h2 class="label titre-section">Technique</h2>
 					<ul class="stack chrome">{d.stack.map((s) => <li>{s}</li>)}</ul>
 				</div>
 				{
 					d.liens.length > 0 && (
 						<div>
-							<h2 class="chrome lbl">Liens</h2>
+							<h2 class="label titre-section">Liens</h2>
 							<ul class="liens">
 								{d.liens.map((l) => (
 									<li>
@@ -125,7 +125,7 @@ const { Content } = await render(entry);
 				{
 					prev ? (
 						<a href={`/travaux/${prev.id}`} class="pg">
-							<span class="chrome">Précédent</span>
+							<span class="label">Précédent</span>
 							<span class="pt">{prev.data.titre}</span>
 						</a>
 					) : (
@@ -135,7 +135,7 @@ const { Content } = await render(entry);
 				{
 					next && (
 						<a href={`/travaux/${next.id}`} class="pg right">
-							<span class="chrome">Suivant</span>
+							<span class="label">Suivant</span>
 							<span class="pt">{next.data.titre}</span>
 						</a>
 					)
@@ -180,8 +180,6 @@ const { Content } = await render(entry);
 	.fiche dd {
 		color: var(--fg);
 		margin: 0;
-		text-transform: none;
-		letter-spacing: 0;
 		font-size: var(--t-caption);
 	}
 
@@ -218,7 +216,7 @@ const { Content } = await render(entry);
 		border-top: 0;
 		padding-top: 0;
 	}
-	.lbl {
+	.titre-section {
 		margin-bottom: 22px;
 	}
 	.intro :global(p) + :global(p) {

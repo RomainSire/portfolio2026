@@ -16,7 +16,7 @@ const { title, description, rawTitle = false, registre = "nuit" } = Astro.props;
 
 /* Le chrome du navigateur suit le registre : une barre d'adresse encre
    au-dessus d'une page washi se lit comme un défaut d'affichage. */
-const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
+const chrome = registre === "galerie" ? "#ebf2fb" : "#090f15";
 ---
 
 <!doctype html>
@@ -27,8 +27,8 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 		<Seo title={title} description={description} rawTitle={rawTitle} />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="sitemap" type="application/xml" title="Plan du site" href="/sitemap-index.xml" />
-		<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/overpass.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/overpass-mono.woff2" as="font" type="font/woff2" crossorigin />
 		<meta name="theme-color" content={chrome} />
 		<ClientRouter />
 		<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
@@ -43,19 +43,9 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 
 		<script is:inline>
 			// Le site navigue en client : tout ce qui suit doit être rejouable à
-			// chaque page. Le sceau se restaure avant le premier rendu de la
-			// nouvelle page (astro:after-swap) pour ne pas se retracer ; le reste
-			// attend astro:page-load.
+			// chaque page, donc tout attend astro:page-load. ADR-0003.
 			(function () {
-				const d = document,
-					r = d.documentElement;
-
-				// Tracé du monogramme : une fois par chargement de document. Un
-				// document neuf n'a pas `data-seal`, le tracé s'y joue ; une
-				// navigation interne le pose, le sceau y reste posé. ADR-0005.
-				function sceau() {
-					r.setAttribute("data-seal", "done");
-				}
+				const d = document;
 
 				// Révélation : ce qui apparaît entre par un déplacement, jamais par un
 				// simple fondu. Une apparition, donc `--dur-reveal`. (global.css)
@@ -96,7 +86,6 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 
 				if (!window.__rs) {
 					window.__rs = 1;
-					d.addEventListener("astro:after-swap", sceau);
 					d.addEventListener("astro:page-load", function () {
 						reveler();
 						courriel();

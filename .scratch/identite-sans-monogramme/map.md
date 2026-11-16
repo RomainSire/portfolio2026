@@ -41,9 +41,11 @@ L'implémentation reste hors carte.
 - [Élément personnel](issues/07-element-personnel.md) : aucun ; jugé sur le rendu combiné, le site ne paraît plus généré. « Trop froid » voulait dire impersonnel, pas une température.
 - [Transition de page](issues/08-transition-de-page.md) : on garde le fondu croisé actuel, jugé plus fluide que les cinq autres ; la coupe qui traverse était l'idée de départ, mais elle reste en deçà ; ADR-0003 et l'entrée Galerie inchangés à ce titre.
 
+- [Rédaction finale](issues/09-redaction-finale.md) : la [spec](spec.md) est prête à implémenter ; ADR-0006 remplace 0005 et amende 0001, 0003 et 0004 ; `CONTEXT.md` n'a plus ni Monogramme ni Tracé.
+
 ## Not yet specified
 
-Rien : la rédaction finale est devenue un ticket, « [Rédaction finale](issues/09-redaction-finale.md) ».
+Rien : la destination est atteinte.
 
 ## Out of scope
 

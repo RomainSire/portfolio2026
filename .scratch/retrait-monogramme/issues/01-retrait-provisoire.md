@@ -19,8 +19,9 @@ logo. Il doit quitter le site en ligne sans attendre la nouvelle identité
   système).
 - Retirer le monogramme de `resources/linkedin/banniere.*` et vérifier
   `resources/cv/`.
-- Mentionner la marque dans `CONTEXT.md` : entrée Monogramme marquée retirée
-  (provisoire, en attente de la carte), et l'entrée Tracé suspendue.
+- ~~Mentionner la marque dans `CONTEXT.md`~~ : déjà fait, en version
+  définitive, par la rédaction finale de la carte (`CONTEXT.md` et
+  ADR-0006). Ne pas y toucher.
 - Corriger l'étude de cas du portfolio (`src/content/travaux/portfolio.md`),
   qui décrit l'identité comme déduite du monogramme. Formulations validées par
   Romain :

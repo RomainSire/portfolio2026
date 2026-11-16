@@ -1,5 +1,6 @@
 ---
 status: accepted
+amended-by: 0006-une-identite-sans-monogramme.md
 ---
 
 # Conserver le système formel de la charte « sori » en abandonnant son nom

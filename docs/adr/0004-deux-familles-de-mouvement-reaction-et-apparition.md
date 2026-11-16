@@ -1,6 +1,8 @@
 ---
 status: accepted
-amended-by: 0005-le-trace-se-joue-a-chaque-chargement-de-document.md
+amended-by:
+  - 0005-le-trace-se-joue-a-chaque-chargement-de-document.md
+  - 0006-une-identite-sans-monogramme.md
 supersedes: 0002-exception-unique-a-la-regle-des-320-ms.md
 ---
 

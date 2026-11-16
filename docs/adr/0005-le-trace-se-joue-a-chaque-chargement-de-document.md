@@ -1,5 +1,6 @@
 ---
-status: accepted
+status: superseded
+superseded-by: 0006-une-identite-sans-monogramme.md
 ---
 
 # Le tracé se joue à chaque chargement de document, plus une fois par session

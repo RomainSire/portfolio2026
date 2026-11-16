@@ -1,5 +1,6 @@
 ---
 status: accepted
+amended-by: 0006-une-identite-sans-monogramme.md
 ---
 
 # Le fondu de page est une règle de navigation, pas une exception au mouvement

@@ -5,30 +5,15 @@ décision d'implémentation ici (celles-ci vont dans `docs/adr/`).
 
 ## Marque
 
-### Monogramme
-Le signe **SR**, monoline, construit uniquement de segments droits et d'arcs
-d'un rayon unique. C'est la seule marque figurative du site. Non négociable :
-il préexiste à cette charte.
-
-Sa grille est symétrique par rotation à 180° ; ses éléments ne le sont pas.
-Le S porte un crochet haut dont le R n'a pas d'équivalent en bas, et les deux
-moitiés n'ont pas la même structure — on ne dérive pas l'une de l'autre.
-L'écart est voulu : la charte en fait la signature du signe, et la rotation à
-180° s'entend comme principe de construction, non comme égalité mesurable.
-
-### Tracé
-Le geste par lequel le monogramme se révèle quand la page se charge, et
-jamais sur une navigation interne : le signe pousse depuis son centre vers
-ses extrémités, chaque moitié partant d'un **germe**, et les deux germes sont
-images l'un de l'autre par rotation à 180°. C'est la seule symétrie que le signe permette : ses
-éléments, eux, ne se répondent pas. La plus longue **apparition** du site, et
-la seule qui ne soit pas un déplacement : tout le reste entre en bougeant, le
-tracé seul surgit de rien. « Sceau » désigne le résultat, « tracé » le geste ;
-aucun des deux n'est affiché au visiteur.
-
 ### Marque nominale
-**Romain Siré**. Il n'y a pas de nom de studio, pas de raison sociale
-affichée hors mentions légales.
+**Romain Siré**, ponctué du point shu. C'est toute la marque du site : il
+n'y a ni signe figuratif, ni nom de studio, ni raison sociale affichée hors
+mentions légales. Ses formes réduites (« rs » du favicon) restent du nom.
+
+Le site a porté un **monogramme** SR ; il est retiré et n'a pas de
+remplaçant. On ne parle donc ni de « logo » ni de « monogramme » pour la
+marque actuelle. Le rayon diagonal qui figure sur l'image de partage n'est
+pas une marque : c'est un élément du système formel, et il ne paraît que là.
 
 Le nom « sori » et le kanji 反り de la charte v1.0 sont **abandonnés**. Le
 système formel qui en découlait (droit + arc, rayon diagonal, palette,
@@ -54,8 +39,8 @@ L'ensemble des règles héritées de la charte v1.0 : la règle *droit + arc*,
 le *rayon diagonal* (deux coins opposés arrondis, deux à angle vif), la
 palette encre/acier/cendre/kasumi/washi/hamon/shu, la *règle du shu* (le
 rouge ponctue, ne remplit jamais), les filets à 0,5 px, la courbe
-d'accélération unique, et le *partage mono/sans* (le monospace tient la
-structure, le sans tient le discours).
+d'accélération unique, et le *partage mono/sans* (le monospace tient les
+données, le sans tient le discours).
 
 La palette désigne sept couleurs nommées, leurs rôles et leurs relations,
 pas des valeurs : une encre peut changer de teinte et rester l'encre.
@@ -128,8 +113,7 @@ La charte v1.0 n'avait qu'une échelle de durée, parce qu'elle n'avait
 rencontré que des réactions. Confondre les deux familles était l'erreur
 d'origine, pas la valeur du plafond.
 
-Deux apparitions au site, et deux seulement : la **révélation** et le
-**tracé**.
+Une apparition au site, et une seule : la **révélation**.
 
 ### Révélation
 Le geste par lequel un bloc de contenu prend sa place quand la lecture
@@ -143,15 +127,13 @@ s'anime en lisière arrive dans la zone de lecture déjà posé, et le site
 paraît immobile.
 
 Ce n'est pas un dévoilement. Un bloc pas encore révélé n'est pas caché : il
-est une **silhouette**. C'est là que la révélation se sépare du **tracé**,
-qui, lui, fait apparaître ce qui n'était pas là — et reste la seule
-apparition du site à partir de rien.
+est une **silhouette**. Rien, sur le site, n'apparaît à partir de rien.
 
 Sa raison d'être tient en une conséquence : un bas de page ne se lit jamais
 comme une fin de page. La suite s'annonce d'elle-même, et le site n'a donc
 aucun repère d'interface — flèche, pastille, dégradé de bord — pour inviter
 à faire défiler. Il n'en aura pas : un tel repère serait un mouvement
-permanent, et la charte n'accorde qu'une exception, déjà prise.
+permanent, et la charte n'en admet aucun.
 
 ### Silhouette
 L'état d'un bloc avant sa révélation. Une silhouette ne réserve pas une

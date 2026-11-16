@@ -1,0 +1,329 @@
+---
+/*
+ * PROTOTYPE — à jeter. Ticket « Température de l'encre et du washi »
+ * (.scratch/identite-sans-monogramme/issues/06-temperature-de-l-encre-et-du-washi.md).
+ *
+ * Ocre et bleu côte à côte, sur les vraies pages : la fenêtre principale
+ * affiche deux iframes de la même page (ocre à gauche, bleu à droite). La
+ * navigation et le défilement de l'une se répercutent sur l'autre.
+ *   1 2 3 / ↑ ↓   l'intensité, commune aux deux : 1 presque neutre,
+ *                 2 teinté, 3 nettement teinté
+ * La barre est en haut, pour ne pas chevaucher la barre d'outils d'Astro.
+ *
+ * Seules les valeurs bougent ; noms, rôles et relations de la palette restent.
+ * Encre, acier, cendre suivent la teinte de l'encre ; kasumi et washi celle du
+ * washi. Hamon et shu ne bougent pas. Les variantes « lisibles sur washi »
+ * (cendre profonde, hamon profond, shu texte) sont assombries juste assez pour
+ * tenir 4,5:1 : le panneau « Contrastes » affiche les ratios AA en direct.
+ *
+ * Déjà décidé et simplement appliqué : Overpass + Overpass Mono, la règle des
+ * labels, le nom seul ponctué du shu (pas de monogramme).
+ * Rendu seulement en dev (Base.astro), styles en `is:inline`.
+ */
+---
+
+<style is:inline>
+	@font-face { font-family: "P Overpass"; src: url("/fonts/prototype/overpass.woff2") format("woff2-variations"); font-weight: 100 900; font-display: swap; }
+	@font-face { font-family: "P Overpass Mono"; src: url("/fonts/prototype/overpass-mono.woff2") format("woff2-variations"); font-weight: 300 700; font-display: swap; }
+
+	/* --- Décidé : Overpass, règle des labels, nom seul --------------------- */
+	html { --sans: "P Overpass", sans-serif; --mono: "P Overpass Mono", monospace; }
+	.chrome { text-transform: none; letter-spacing: 0; font-size: 0.75rem; }
+	:is(.chrome.lbl, h2.chrome, h3.chrome, .links, .col > p.chrome, .top > p.chrome,
+		.wrap > p.chrome:not(.maj):not(.code), .pg .chrome, .crumbs, .wrap span.chrome) {
+		font-family: var(--sans); font-size: var(--t-caption); font-weight: 500;
+		letter-spacing: 0; text-transform: none;
+	}
+	.links { font-weight: 400; font-size: var(--t-caption); }
+	.mono { display: none !important; }
+	.brand .name { display: inline !important; font-size: var(--t-body); font-weight: 600; letter-spacing: -0.01em; }
+	.brand .name::after {
+		content: ""; display: inline-block; width: 0.25em; height: 0.25em; min-width: 5px; min-height: 5px;
+		margin-left: 0.05em; border-radius: 50%; background: var(--seal);
+	}
+
+	/* --- Dans une iframe : ni barre, ni barre d'outils Astro -------------- */
+	html.p-embed #p-cmp, html.p-embed #p-panel, html.p-embed astro-dev-toolbar { display: none !important; }
+
+	/* --- Fenêtre principale : la page réelle cède la place au comparatif -- */
+	html:not(.p-embed) { overflow: hidden; }
+	html:not(.p-embed) body > :not(#p-cmp):not(#p-panel):not(astro-dev-toolbar) { visibility: hidden; }
+
+	/* --- Comparatif (hors design évalué) ---------------------------------- */
+	#p-cmp {
+		position: fixed; inset: 0; z-index: 1000; background: #000;
+		display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 0 2px;
+	}
+	#p-cmp iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+	#p-bar {
+		grid-column: 1 / -1; display: flex; align-items: center; gap: 4px; padding: 4px 8px;
+		background: #ffe600; color: #000; border-bottom: 2px solid #000;
+		font: 600 13px/1 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+	}
+	#p-bar .lab { flex: 1; padding-inline: 6px; white-space: nowrap; }
+	#p-bar .lab:last-child { text-align: right; }
+	#p-bar button { all: unset; cursor: pointer; padding: 7px 10px; border-radius: 999px; white-space: nowrap; }
+	#p-bar button:hover { background: rgb(0 0 0 / 0.1); }
+	#p-bar button[aria-pressed="true"] { background: #000; color: #ffe600; }
+	#p-bar .sep { width: 1px; align-self: stretch; background: rgb(0 0 0 / 0.25); margin-inline: 4px; }
+
+	#p-panel {
+		position: fixed; right: 16px; top: 56px; z-index: 1001; width: min(420px, calc(100vw - 32px));
+		max-height: calc(100vh - 80px); overflow: auto;
+		background: #161616; color: #eee; border-radius: 10px; padding: 14px 16px;
+		box-shadow: 0 0 0 1px #444, 0 10px 30px rgb(0 0 0 / 0.5);
+		font: 400 12px/1.45 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+	}
+	#p-panel[hidden] { display: none; }
+	#p-panel h2 { font: 600 11px/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: #ffe600; margin: 14px 0 8px; }
+	#p-panel h2:first-child { margin-top: 0; }
+	#p-panel h3 { font: 600 11px/1 system-ui, sans-serif; color: #aaa; margin: 10px 0 4px; }
+	#p-panel table { width: 100%; border-collapse: collapse; }
+	#p-panel td { padding: 3px 4px; vertical-align: middle; }
+	#p-panel td.r { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+	#p-panel .ok { color: #7fd17f; }
+	#p-panel .ko { color: #ff7a6b; font-weight: 700; }
+	#p-panel .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; box-shadow: 0 0 0 1px #555; vertical-align: -3px; margin-right: 6px; }
+	#p-panel code { font: 11px ui-monospace, monospace; color: #bbb; }
+</style>
+
+<div id="p-panel" hidden></div>
+
+<div id="p-cmp">
+	<div id="p-bar" aria-label="Prototype : température">
+		<span class="lab" data-lab="ocre"></span>
+		<button type="button" data-page="/">Accueil</button>
+		<button type="button" data-page="/a-propos">À propos</button>
+		<button type="button" data-page="/travaux/notrelec">Étude de cas</button>
+		<span class="sep"></span>
+		<button type="button" data-int="1">1</button>
+		<button type="button" data-int="2">2</button>
+		<button type="button" data-int="3">3</button>
+		<span class="sep"></span>
+		<button type="button" data-panel>Contrastes</button>
+		<span class="lab" data-lab="bleu"></span>
+	</div>
+</div>
+
+<script is:inline>
+	(function () {
+		/* Teintes : angle OKLCH. */
+		var T = { ocre: ["Ocre", 75], bleu: ["Bleu", 250] };
+		/* Chroma OKLCH par intensité : [encre, washi]. Washi actuel ≈ 0,011. */
+		var C = { 1: [0.008, 0.014], 2: [0.016, 0.022], 3: [0.028, 0.032] };
+		var ACTUEL = {
+			ink: "#0b0d0e", steel: "#2a2e30", ash: "#767b7d", "ash-deep": "#656a6c",
+			kasumi: "#c9c6be", washi: "#f4f1ea", hamon: "#8fa8b2", "hamon-deep": "#455c66",
+			shu: "#c8402a", "shu-tx": "#a33320", raised: "#fffdf8",
+		};
+
+		/* --- Couleur : OKLCH ↔ sRGB, contraste WCAG ------------------------ */
+		function lin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+		function gam(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+		function hex2rgb(h) { return [1, 3, 5].map(function (i) { return parseInt(h.slice(i, i + 2), 16) / 255; }); }
+		function rgb2hex(r) {
+			return "#" + r.map(function (v) {
+				v = Math.round(Math.min(1, Math.max(0, v)) * 255);
+				return (v < 16 ? "0" : "") + v.toString(16);
+			}).join("");
+		}
+		function oklch2hex(L, Cc, h) {
+			var a = Cc * Math.cos((h * Math.PI) / 180), b = Cc * Math.sin((h * Math.PI) / 180);
+			var l = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3);
+			var m = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3);
+			var s = Math.pow(L - 0.0894841775 * a - 1.291485548 * b, 3);
+			return rgb2hex([
+				gam(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+				gam(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+				gam(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+			]);
+		}
+		function hex2oklch(h) {
+			var c = hex2rgb(h).map(lin);
+			var l = Math.cbrt(0.4122214708 * c[0] + 0.5363325363 * c[1] + 0.0514459929 * c[2]);
+			var m = Math.cbrt(0.2119034982 * c[0] + 0.6806995451 * c[1] + 0.1073969566 * c[2]);
+			var s = Math.cbrt(0.0883024619 * c[0] + 0.2817188376 * c[1] + 0.6299787005 * c[2]);
+			var L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+			var a = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+			var b = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+			return [L, Math.hypot(a, b), ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360];
+		}
+		function lum(h) { var c = hex2rgb(h).map(lin); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+		function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+
+		/* Assombrit `fg` (même teinte, même chroma) jusqu'à `min` sur `bg`. */
+		function tenir(fg, bg, min) {
+			var o = hex2oklch(fg), L = o[0], out = fg;
+			while (ratio(out, bg) < min && L > 0) { L -= 0.005; out = oklch2hex(L, o[1], o[2]); }
+			return out;
+		}
+
+		function palette(k, n) {
+			var h = T[k][1], ci = C[n][0], cw = C[n][1];
+			var p = {
+				ink: oklch2hex(0.165, ci, h),
+				steel: oklch2hex(0.29, ci * 0.9, h),
+				ash: oklch2hex(0.585, ci * 0.6, h),
+				"ash-deep": oklch2hex(0.53, ci * 0.6, h),
+				kasumi: oklch2hex(0.825, cw * 0.8, h),
+				washi: oklch2hex(0.959, cw, h),
+				raised: oklch2hex(0.99, cw * 0.4, h),
+				hamon: ACTUEL.hamon, shu: ACTUEL.shu,
+				"hamon-deep": ACTUEL["hamon-deep"], "shu-tx": ACTUEL["shu-tx"],
+			};
+			p["ash-deep"] = tenir(p["ash-deep"], p.washi, 4.6);
+			p["hamon-deep"] = tenir(p["hamon-deep"], p.washi, 4.6);
+			p["shu-tx"] = tenir(p["shu-tx"], p.washi, 4.6);
+			return p;
+		}
+
+		/* Intensité commune : sessionStorage est partagé par la fenêtre et ses iframes. */
+		function lireN() {
+			var q = new URL(location.href).searchParams.get("intensite");
+			if (/^[123]$/.test(q || "")) return +q;
+			try { var s = sessionStorage.getItem("p-temp-n"); if (/^[123]$/.test(s || "")) return +s; } catch (e) {}
+			return 2;
+		}
+		function ecrireN(n) { try { sessionStorage.setItem("p-temp-n", String(n)); } catch (e) {} }
+
+		var r = document.documentElement;
+		/* Le nom de l'iframe (`p-ocre`, `p-bleu`) survit aux navigations. */
+		var emb = /^p-(ocre|bleu)$/.exec(window.name || "");
+
+		/* ================= Dans une iframe : une teinte ================== */
+		if (emb && window.parent !== window) {
+			var k = emb[1];
+			var peindre = function () {
+				r.classList.add("p-embed");
+				var p = palette(k, lireN());
+				["ink", "steel", "ash", "ash-deep", "kasumi", "washi", "hamon", "hamon-deep", "shu", "shu-tx"].forEach(function (c) {
+					r.style.setProperty("--" + c, p[c]);
+				});
+				/* --bg-raised galerie est un hex en dur dans tokens.css. */
+				r.style.setProperty("--bg-raised", r.getAttribute("data-registre") === "galerie" ? p.raised : "var(--steel)");
+			};
+			peindre();
+			if (!window.__pTemp) {
+				window.__pTemp = 1;
+				var verrou = false;
+				var dire = function (m) { m.p = 1; window.parent.postMessage(m, location.origin); };
+				document.addEventListener("astro:after-swap", peindre);
+				document.addEventListener("astro:page-load", function () { dire({ t: "nav", k: k, path: location.pathname }); });
+				addEventListener("scroll", function () {
+					if (verrou) { verrou = false; return; }
+					dire({ t: "scroll", k: k, y: scrollY });
+				}, { passive: true });
+				addEventListener("message", function (e) {
+					var m = e.data;
+					if (e.origin !== location.origin || !m || !m.p) return;
+					if (m.t === "paint") peindre();
+					if (m.t === "scroll" && Math.abs(scrollY - m.y) > 1) { verrou = true; scrollTo(0, m.y); }
+					if (m.t === "go" && location.pathname !== m.path) location.assign(m.path);
+				});
+				document.addEventListener("keydown", function (e) {
+					if (/^(ArrowUp|ArrowDown|[123])$/.test(e.key)) { e.preventDefault(); dire({ t: "key", key: e.key }); }
+				});
+			}
+			return;
+		}
+
+		/* ================= Fenêtre principale : le comparatif ============= */
+		if (window.__pTempTop) return;
+		window.__pTempTop = 1;
+		var cmp = document.getElementById("p-cmp");
+		var path = location.pathname;
+		var n = lireN();
+		var F = {};
+		["ocre", "bleu"].forEach(function (key) {
+			var f = document.createElement("iframe");
+			f.name = "p-" + key;
+			f.title = T[key][0];
+			f.src = path;
+			cmp.appendChild(f);
+			F[key] = f;
+		});
+		var autre = function (key) { return key === "ocre" ? "bleu" : "ocre"; };
+		var envoyer = function (key, m) { m.p = 1; F[key].contentWindow.postMessage(m, location.origin); };
+
+		function lignes(p) {
+			var nuit = [
+				["texte", "washi", "ink", 4.5], ["texte discret", "ash", "ink", 4.5], ["lien", "hamon", "ink", 4.5],
+				["point shu (non textuel)", "shu", "ink", 3], ["lien d'évitement (sur acier)", "washi", "steel", 4.5],
+			];
+			var gal = [
+				["texte", "ink", "washi", 4.5], ["texte discret", "ash-deep", "washi", 4.5], ["lien", "hamon-deep", "washi", 4.5],
+				["point shu", "shu-tx", "washi", 3], ["lien d'évitement (sur panneau)", "ink", "raised", 4.5],
+			];
+			function t(rows) {
+				return "<table>" + rows.map(function (rw) {
+					var v = ratio(p[rw[1]], p[rw[2]]);
+					return "<tr><td>" + rw[0] + " <code>" + rw[1] + "/" + rw[2] + "</code></td><td class='r " +
+						(v >= rw[3] ? "ok" : "ko") + "'>" + v.toFixed(2) + ":1 " + (v >= rw[3] ? "✓" : "✗ < " + rw[3]) + "</td></tr>";
+				}).join("") + "</table>";
+			}
+			var vals = "<table>" + Object.keys(p).map(function (c) {
+				var a = ACTUEL[c];
+				return "<tr><td><span class='sw' style='background:" + p[c] + "'></span>" + c + "</td><td class='r'><code>" +
+					p[c] + (a !== p[c] ? " (" + a + ")" : "") + "</code></td></tr>";
+			}).join("") + "</table>";
+			return "<h3>Nuit</h3>" + t(nuit) + "<h3>Galerie</h3>" + t(gal) + "<h3>Valeurs (actuelle)</h3>" + vals;
+		}
+
+		function maj() {
+			ecrireN(n);
+			var u = new URL(location.href);
+			u.pathname = path;
+			u.searchParams.set("intensite", n);
+			history.replaceState(history.state, "", u);
+			document.querySelectorAll("#p-bar [data-lab]").forEach(function (l) {
+				l.textContent = (l.dataset.lab === "ocre" ? "← " : "") + T[l.dataset.lab][0] + " " + n + (l.dataset.lab === "bleu" ? " →" : "");
+			});
+			document.querySelectorAll("#p-bar [data-int]").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.int === n)); });
+			document.querySelectorAll("#p-bar [data-page]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.page === path)); });
+			document.getElementById("p-panel").innerHTML =
+				"<h2>Ocre " + n + "</h2>" + lignes(palette("ocre", n)) + "<h2>Bleu " + n + "</h2>" + lignes(palette("bleu", n));
+		}
+		function inten(v) {
+			n = Math.min(3, Math.max(1, v));
+			maj();
+			envoyer("ocre", { t: "paint" });
+			envoyer("bleu", { t: "paint" });
+		}
+		function clavier(key) {
+			if (key === "ArrowUp") inten(n + 1);
+			else if (key === "ArrowDown") inten(n - 1);
+			else if (/^[123]$/.test(key)) inten(+key);
+		}
+
+		maj();
+		addEventListener("message", function (e) {
+			var m = e.data;
+			if (e.origin !== location.origin || !m || !m.p) return;
+			if (m.t === "nav") {
+				if (m.path !== path) { path = m.path; maj(); }
+				envoyer(autre(m.k), { t: "go", path: m.path });
+			}
+			if (m.t === "scroll") envoyer(autre(m.k), { t: "scroll", y: m.y });
+			if (m.t === "key") clavier(m.key);
+		});
+		document.addEventListener("click", function (e) {
+			var b = e.target.closest && e.target.closest("#p-bar button");
+			if (!b) return;
+			if (b.dataset.int) inten(+b.dataset.int);
+			if (b.dataset.page) {
+				path = b.dataset.page;
+				maj();
+				envoyer("ocre", { t: "go", path: path });
+				envoyer("bleu", { t: "go", path: path });
+			}
+			if (b.hasAttribute("data-panel")) {
+				var p = document.getElementById("p-panel");
+				p.hidden = !p.hidden;
+				b.setAttribute("aria-pressed", String(!p.hidden));
+			}
+		});
+		document.addEventListener("keydown", function (e) {
+			if (/^(ArrowUp|ArrowDown|[123])$/.test(e.key)) { e.preventDefault(); clavier(e.key); }
+		});
+	})();
+</script>

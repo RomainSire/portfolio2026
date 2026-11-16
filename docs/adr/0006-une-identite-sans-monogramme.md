@@ -5,6 +5,7 @@ amends:
   - 0001-systeme-formel-sans-le-nom-sori.md
   - 0003-le-fondu-de-page-est-une-regle-de-navigation.md
   - 0004-deux-familles-de-mouvement-reaction-et-apparition.md
+amended-by: 0007-le-rayon-diagonal-sur-le-panneau-de-ce-portfolio.md
 ---
 
 # Une identité sans monogramme : le nom seul, et plus de tracé

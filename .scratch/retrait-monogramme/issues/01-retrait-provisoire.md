@@ -21,6 +21,18 @@ logo. Il doit quitter le site en ligne sans attendre la nouvelle identité
   `resources/cv/`.
 - Mentionner la marque dans `CONTEXT.md` : entrée Monogramme marquée retirée
   (provisoire, en attente de la carte), et l'entrée Tracé suspendue.
+- Corriger l'étude de cas du portfolio (`src/content/travaux/portfolio.md`),
+  qui décrit l'identité comme déduite du monogramme. Formulations validées par
+  Romain :
+  - `accroche` : « Une identité construite sur une règle, un site écrit avec
+    un agent IA, et un dépôt public pour le vérifier. »
+  - Décision « Une règle plutôt qu'une mode », `texte` : « Toute forme du site
+    est un segment droit ou un arc d'un rayon unique, du plus petit bouton à
+    la mise en page. Cette règle ne dépend d'aucune tendance, et ne vieillira
+    pas avec elles. »
+  - Paragraphe du corps : « La charte tient en quelques règles : des segments
+    droits et des arcs d'un rayon unique, sept couleurs nommées, et un seul
+    rouge, qui ponctue sans jamais remplir. »
 - Vérifier que le build passe et qu'aucune référence ne subsiste
   (`grep -ri monogram`).
 

@@ -16,6 +16,8 @@ décorative » ? Pas de photo de Romain.
 
 ## Contexte
 
-- Bloqué par « Sort du tracé » : si le tracé passe à une écriture du nom, il
-  peut porter tout ou partie de la réponse.
+- « Sort du tracé » (`issues/05-sort-du-trace.md`) : le tracé disparaît et
+  `--dur-seal` avec lui ; la révélation est la seule apparition. Un élément
+  manuscrit qui se dessinerait serait une nouvelle apparition à partir de
+  rien, à justifier ici, avec son propre jeton et son ADR.
 - Diagnostic : `issues/01-diagnostic-du-fait-ia.md`.

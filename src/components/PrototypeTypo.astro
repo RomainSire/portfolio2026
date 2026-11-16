@@ -1,0 +1,172 @@
+---
+/*
+ * PROTOTYPE — à jeter. Ticket « Choix de la typographie »
+ * (.scratch/identite-sans-monogramme/issues/03-choix-de-la-typographie.md).
+ *
+ * Cinq variantes sur les vraies pages, via `?variant=` :
+ *   actuel     Geist + Geist Mono, labels actuels (référence)
+ *   overpass   Overpass + Overpass Mono
+ *   sono       Sono (axe MONO 0 / 1)
+ *   iosevka    Iosevka Charon + Iosevka Charon Mono
+ *   recursive  Recursive (MONO 0 / 1, CASL 0, CRSV 0)
+ *
+ * Hors « actuel », la nouvelle règle des labels du diagnostic est appliquée :
+ * mono réservée aux données, en bas de casse ; titres de section, navigation
+ * et intitulés en sans. Pastille en bas de casse, nouveau texte.
+ *
+ * Rendu seulement en dev (Base.astro), styles en `is:inline` pour ne rien
+ * embarquer dans le build.
+ */
+---
+
+<style is:inline>
+	@font-face { font-family: "P Overpass"; src: url("/fonts/prototype/overpass.woff2") format("woff2-variations"); font-weight: 100 900; font-display: swap; }
+	@font-face { font-family: "P Overpass Mono"; src: url("/fonts/prototype/overpass-mono.woff2") format("woff2-variations"); font-weight: 300 700; font-display: swap; }
+	@font-face { font-family: "P Sono"; src: url("/fonts/prototype/sono.woff2") format("woff2-variations"); font-weight: 200 800; font-display: swap; }
+	@font-face { font-family: "P Iosevka Charon"; src: url("/fonts/prototype/iosevka-charon-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+	@font-face { font-family: "P Iosevka Charon"; src: url("/fonts/prototype/iosevka-charon-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+	@font-face { font-family: "P Iosevka Charon Mono"; src: url("/fonts/prototype/iosevka-charon-mono-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+	@font-face { font-family: "P Iosevka Charon Mono"; src: url("/fonts/prototype/iosevka-charon-mono-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+	@font-face { font-family: "P Recursive"; src: url("/fonts/prototype/recursive.woff2") format("woff2-variations"); font-weight: 300 1000; font-display: swap; }
+
+	/* --- Couples ---------------------------------------------------------- */
+	html[data-typo="overpass"] { --sans: "P Overpass", sans-serif; --mono: "P Overpass Mono", monospace; }
+	html[data-typo="iosevka"] { --sans: "P Iosevka Charon", sans-serif; --mono: "P Iosevka Charon Mono", monospace; }
+	html[data-typo="sono"] { --sans: "P Sono", sans-serif; --mono: "P Sono", monospace; }
+	html[data-typo="recursive"] { --sans: "P Recursive", sans-serif; --mono: "P Recursive", monospace; }
+
+	/* Familles à axe MONO : un seul fichier, deux rôles. */
+	html[data-typo="sono"] { --p-sans-fvs: "MONO" 0; --p-mono-fvs: "MONO" 1; }
+	html[data-typo="recursive"] { --p-sans-fvs: "MONO" 0, "CASL" 0, "CRSV" 0; --p-mono-fvs: "MONO" 1, "CASL" 0, "CRSV" 0; }
+	html[data-typo] body { font-variation-settings: var(--p-sans-fvs, normal); }
+	html[data-typo] .chrome { font-variation-settings: var(--p-mono-fvs, normal); }
+
+	/* --- Nouvelle règle des labels (toutes les variantes sauf « actuel ») --
+	   Mono = données, en bas de casse, sans capitales espacées. */
+	html[data-typo]:not([data-typo="actuel"]) .chrome {
+		text-transform: none;
+		letter-spacing: 0;
+		font-size: 0.75rem;
+	}
+	/* Titres de section, navigation, intitulés : en sans. Ciblés ici plutôt
+	   que dans le balisage, pour que le prototype reste réversible. */
+	html[data-typo]:not([data-typo="actuel"]) :is(
+		.chrome.lbl,
+		h2.chrome,
+		h3.chrome,
+		.links,
+		.col > p.chrome,
+		.top > p.chrome,
+		.wrap > p.chrome:not(.maj):not(.code),
+		.pg .chrome,
+		.crumbs,
+		.wrap span.chrome
+	) {
+		font-family: var(--sans);
+		font-variation-settings: var(--p-sans-fvs, normal);
+		font-size: var(--t-caption);
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+	/* La navigation garde la taille d'un lien, pas d'un titre. */
+	html[data-typo]:not([data-typo="actuel"]) .links { font-weight: 400; font-size: var(--t-caption); }
+
+	/* --- Pastille --------------------------------------------------------- */
+	.p-new { display: none; }
+	html[data-typo]:not([data-typo="actuel"]) .p-old { display: none; }
+	html[data-typo]:not([data-typo="actuel"]) .p-new { display: inline; }
+
+	/* --- Barre de bascule (hors design évalué) ---------------------------- */
+	#p-bar {
+		position: fixed;
+		left: 50%;
+		bottom: 16px;
+		transform: translateX(-50%);
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 4px;
+		background: #ffe600;
+		color: #000;
+		border: 2px solid #000;
+		border-radius: 999px;
+		box-shadow: 0 6px 24px rgb(0 0 0 / 0.45);
+		font: 600 13px/1 system-ui, sans-serif;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+	#p-bar button {
+		all: unset;
+		cursor: pointer;
+		padding: 8px 12px;
+		border-radius: 999px;
+	}
+	#p-bar button:hover { background: rgb(0 0 0 / 0.1); }
+	#p-bar output { min-width: 15em; text-align: center; white-space: nowrap; }
+	@media print { #p-bar { display: none; } }
+</style>
+
+<div id="p-bar" transition:persist="p-bar" aria-label="Prototype : couple typographique">
+	<button type="button" data-step="-1" aria-label="Variante précédente">←</button>
+	<output></output>
+	<button type="button" data-step="1" aria-label="Variante suivante">→</button>
+</div>
+
+<script is:inline>
+	(function () {
+		var V = [
+			["actuel", "Geist (actuel)"],
+			["overpass", "Overpass"],
+			["sono", "Sono"],
+			["iosevka", "Iosevka Charon"],
+			["recursive", "Recursive"],
+		];
+		var keys = V.map(function (v) { return v[0]; });
+		var KEY = "p-typo";
+
+		function current() {
+			var q = new URL(location.href).searchParams.get("variant");
+			if (q && keys.indexOf(q) >= 0) return q;
+			try { var s = sessionStorage.getItem(KEY); if (s && keys.indexOf(s) >= 0) return s; } catch (e) {}
+			return "actuel";
+		}
+
+		function apply(k) {
+			document.documentElement.setAttribute("data-typo", k);
+			try { sessionStorage.setItem(KEY, k); } catch (e) {}
+			var u = new URL(location.href);
+			if (u.searchParams.get("variant") !== k) {
+				u.searchParams.set("variant", k);
+				history.replaceState(history.state, "", u);
+			}
+			var i = keys.indexOf(k);
+			var out = document.querySelector("#p-bar output");
+			if (out) out.textContent = (i + 1) + "/" + V.length + " · " + V[i][1];
+		}
+
+		function step(n) {
+			var i = keys.indexOf(current());
+			apply(keys[(i + n + keys.length) % keys.length]);
+		}
+
+		apply(current());
+
+		if (!window.__pTypo) {
+			window.__pTypo = 1;
+			// Le routeur client remplace les attributs de <html> : on repose.
+			document.addEventListener("astro:after-swap", function () { apply(current()); });
+			document.addEventListener("click", function (e) {
+				var b = e.target.closest && e.target.closest("#p-bar button");
+				if (b) step(+b.dataset.step);
+			});
+			document.addEventListener("keydown", function (e) {
+				var t = e.target;
+				if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+				if (e.key === "ArrowLeft") step(-1);
+				if (e.key === "ArrowRight") step(1);
+			});
+		}
+	})();
+</script>

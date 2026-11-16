@@ -1,0 +1,288 @@
+---
+/*
+ * PROTOTYPE — à jeter. Ticket « Transition de page »
+ * (.scratch/identite-sans-monogramme/issues/08-transition-de-page.md).
+ *
+ * Six candidats de transition, sur les vraies pages et dans l'identité décidée
+ * (rendu combiné, forcé en « après »). Chacun vaut pour toute navigation
+ * interne. À juger surtout aux bascules de registre : accueil → À propos,
+ * étude de cas → contact.
+ *
+ *   1  fondu            le fondu croisé actuel (référence)
+ *   2  balayage         le fond monte du bas, le contenu suit
+ *   3a coupe-balayage   la ligne de coupe (arc d'un seul rayon, axe du rayon
+ *                       diagonal) traverse l'écran ; la nouvelle page est derrière
+ *   3b coupe-fente      le geste du sabre : la coupe file du coin haut gauche au
+ *                       coin bas droit, puis la page s'ouvre de part et d'autre
+ *   4  rideau           le fond change d'abord, le texte se pose ensuite
+ *   5  franche          aucune transition
+ *
+ * Barre jaune (hors design évalué) : ← → candidat ; pour 3a/3b, C cambrure,
+ * R rotation (aucune / inclinaison fixe / pivot pendant la traversée) ;
+ * L ralenti ×4, pour regarder le geste — la durée réelle reste 320 ms.
+ * Réglages gardés en sessionStorage le temps de la session.
+ */
+---
+
+<style is:inline>
+	/* Le rendu combiné reste en « après » ; sa barre cède la place. */
+	#p-bar { display: none !important; }
+
+	@media (prefers-reduced-motion: no-preference) {
+	/* Coupe : le clip est posé en JS (Web Animations). L'ancienne page reste
+	   immobile dessous ; la nouvelle se découvre par-dessus. */
+	html[data-pt^="coupe"]::view-transition-old(root),
+	html[data-pt^="coupe"]::view-transition-new(root),
+	html[data-pt="balayage"]::view-transition-old(root),
+	html[data-pt="franche"]::view-transition-old(root),
+	html[data-pt="franche"]::view-transition-new(root) {
+		animation: none;
+	}
+	html[data-pt="franche"]::view-transition-old(root) { display: none; }
+
+	html[data-pt="fondu"]::view-transition-old(root) { animation-duration: var(--pt-dur); }
+	html[data-pt="fondu"]::view-transition-new(root) { animation-duration: var(--pt-dur); }
+
+	/* 2 — balayage vertical : le fond monte, le contenu suit avec un temps de
+	   retard sur une courte distance. */
+	html[data-pt="balayage"]::view-transition-new(root) {
+		animation: pt-monte var(--pt-dur) var(--ease) both;
+	}
+	@keyframes pt-monte {
+		0% { clip-path: inset(100% 0 0 0); transform: translateY(40px); }
+		70% { transform: translateY(6px); }
+		100% { clip-path: inset(0 0 0 0); transform: none; }
+	}
+
+	/* 4 — rideau puis contenu : le contenu (<main>) est capturé à part ; le
+	   fond et le chrome basculent sur la première moitié, le texte se pose
+	   sur la seconde. */
+	html[data-pt="rideau"] main { view-transition-name: pt-contenu; }
+	html[data-pt="rideau"]::view-transition-group(pt-contenu) { animation: none; }
+	html[data-pt="rideau"]::view-transition-old(root) {
+		animation: page-sortie calc(var(--pt-dur) / 2) var(--ease) both;
+	}
+	html[data-pt="rideau"]::view-transition-new(root) {
+		animation: page-entree calc(var(--pt-dur) / 2) var(--ease) both;
+	}
+	html[data-pt="rideau"]::view-transition-old(pt-contenu) {
+		animation: page-sortie calc(var(--pt-dur) / 4) var(--ease) both;
+	}
+	html[data-pt="rideau"]::view-transition-new(pt-contenu) {
+		animation: page-entree calc(var(--pt-dur) / 2) var(--ease) calc(var(--pt-dur) / 2) both;
+	}
+
+	}
+
+	/* --- Barre (hors design évalué) --------------------------------------- */
+	#pt-bar {
+		position: fixed; left: 50%; top: 12px; transform: translateX(-50%); z-index: 1000;
+		display: flex; align-items: center; gap: 2px; padding: 4px; max-width: calc(100vw - 16px);
+		flex-wrap: wrap; justify-content: center;
+		background: #ffe600; color: #000; border: 2px solid #000; border-radius: 22px;
+		box-shadow: 0 6px 24px rgb(0 0 0 / 0.45);
+		font: 600 13px/1 system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+		view-transition-name: pt-bar;
+	}
+	#pt-bar button { all: unset; cursor: pointer; padding: 8px 12px; border-radius: 999px; white-space: nowrap; }
+	#pt-bar button:hover { background: rgb(0 0 0 / 0.1); }
+	#pt-bar .cur { padding: 8px 10px; min-width: 15ch; text-align: center; }
+	#pt-bar [hidden] { display: none; }
+	#pt-bar button[aria-pressed="true"] { background: #000; color: #ffe600; }
+	::view-transition-group(pt-bar) { animation: none; }
+	::view-transition-old(pt-bar) { display: none; }
+	::view-transition-new(pt-bar) { animation: none; }
+</style>
+
+<div id="pt-bar" aria-label="Prototype : transition de page">
+	<button type="button" data-a="prev" aria-label="Candidat précédent">←</button>
+	<span class="cur" data-o="nom"></span>
+	<button type="button" data-a="next" aria-label="Candidat suivant">→</button>
+	<button type="button" data-a="cambrure" data-coupe></button>
+	<button type="button" data-a="rotation" data-coupe></button>
+	<button type="button" data-a="ralenti"></button>
+</div>
+
+<script is:inline>
+	(function () {
+		var VARIANTES = [
+			["fondu", "1 · Fondu"],
+			["balayage", "2 · Balayage vertical"],
+			["coupe-balayage", "3a · Coupe qui traverse"],
+			["coupe-fente", "3b · Coupe puis ouverture"],
+			["rideau", "4 · Rideau puis contenu"],
+			["franche", "5 · Coupe franche"],
+		];
+		var CAMBRURES = [
+			[0, "droite"],
+			[0.025, "légère"],
+			[0.05, "moyenne"],
+			[0.09, "marquée"],
+		];
+		var ROTATIONS = [
+			["aucune", "sans rotation"],
+			["fixe", "inclinée 4°"],
+			["pivot", "pivot −4°→+4°"],
+		];
+		var DEG = 4;
+		var BASE = 320; // --dur-slow
+		var K = "p-transition";
+
+		function lire() {
+			var s = {};
+			try { s = JSON.parse(sessionStorage.getItem(K) || "{}"); } catch (e) {}
+			var q = new URL(location.href).searchParams.get("t");
+			return {
+				v: q || s.v || "coupe-fente",
+				c: s.c == null ? 1 : s.c,
+				r: s.r == null ? 1 : s.r,
+				lent: !!s.lent,
+			};
+		}
+		var etat = lire();
+		function garder() { try { sessionStorage.setItem(K, JSON.stringify(etat)); } catch (e) {} }
+		function duree() { return BASE * (etat.lent ? 4 : 1); }
+
+		function poser(doc) {
+			doc.documentElement.setAttribute("data-pt", etat.v);
+			doc.documentElement.style.setProperty("--pt-dur", duree() + "ms");
+		}
+
+		function afficher() {
+			poser(document);
+			var bar = document.getElementById("pt-bar");
+			if (!bar) return;
+			var i = VARIANTES.findIndex(function (x) { return x[0] === etat.v; });
+			bar.querySelector('[data-o="nom"]').textContent = VARIANTES[i < 0 ? 0 : i][1];
+			var coupe = etat.v.indexOf("coupe") === 0;
+			bar.querySelectorAll("[data-coupe]").forEach(function (b) { b.hidden = !coupe; });
+			bar.querySelector('[data-a="cambrure"]').textContent = "C · arc " + CAMBRURES[etat.c][1];
+			bar.querySelector('[data-a="rotation"]').textContent = "R · " + ROTATIONS[etat.r][1];
+			var l = bar.querySelector('[data-a="ralenti"]');
+			l.textContent = "L · ralenti ×4";
+			l.setAttribute("aria-pressed", String(etat.lent));
+		}
+
+		function agir(a) {
+			var i = VARIANTES.findIndex(function (x) { return x[0] === etat.v; });
+			if (a === "next") etat.v = VARIANTES[(i + 1) % VARIANTES.length][0];
+			if (a === "prev") etat.v = VARIANTES[(i - 1 + VARIANTES.length) % VARIANTES.length][0];
+			if (a === "cambrure") etat.c = (etat.c + 1) % CAMBRURES.length;
+			if (a === "rotation") etat.r = (etat.r + 1) % ROTATIONS.length;
+			if (a === "ralenti") etat.lent = !etat.lent;
+			garder();
+			afficher();
+		}
+
+		/* --- Courbe unique --ease, résolue en JS pour échantillonner ------- */
+		function bezier(x1, y1, x2, y2) {
+			function c(a, b, t) { return 3 * a * t * (1 - t) * (1 - t) + 3 * b * t * t * (1 - t) + t * t * t; }
+			return function (x) {
+				if (x <= 0) return 0;
+				if (x >= 1) return 1;
+				var lo = 0, hi = 1, t = x;
+				for (var k = 0; k < 40; k++) {
+					t = (lo + hi) / 2;
+					if (c(x1, x2, t) < x) lo = t; else hi = t;
+				}
+				return c(y1, y2, t);
+			};
+		}
+		function ease() {
+			var v = getComputedStyle(document.documentElement).getPropertyValue("--ease");
+			var m = v.match(/cubic-bezier\(([^)]+)\)/);
+			var p = m ? m[1].split(",").map(Number) : [0.2, 0, 0, 1];
+			return bezier(p[0], p[1], p[2], p[3]);
+		}
+
+		/* --- Géométrie de la coupe -----------------------------------------
+		   Repère local : x le long de la coupe (axe haut gauche → bas droit,
+		   tourné de θ), y selon la normale (vers le haut droit). La coupe est
+		   un arc d'un seul rayon, bombé vers l'ancienne page ; y(x) = √(R²−x²) − R,
+		   donc y(0) = 0 et y(±L/2) = −flèche. Droite si la cambrure est nulle. */
+		function geom(W, H, k, theta) {
+			var L = Math.hypot(W, H);
+			var a = Math.atan2(H, W) + theta;
+			var u = [Math.cos(a), Math.sin(a)];
+			var n = [u[1], -u[0]];
+			var s = k * L;
+			var R = s > 0 ? (L * L / 4 + s * s) / (2 * s) : 1e7;
+			var e = (Math.abs(n[0]) * W + Math.abs(n[1]) * H) / 2;
+			return { W: W, H: H, L: L, u: u, n: n, s: s, R: R, e: e, M: 0.75 * L };
+		}
+		function y(g, x) { return g.s > 0 ? Math.sqrt(g.R * g.R - x * x) - g.R : 0; }
+		function pt(g, cx, cy, x, yy) {
+			return (cx + g.u[0] * x + g.n[0] * yy).toFixed(1) + " " + (cy + g.u[1] * x + g.n[1] * yy).toFixed(1);
+		}
+		function arc(g, sweep) { return " A " + g.R.toFixed(1) + " " + g.R.toFixed(1) + " 0 0 " + sweep + " "; }
+
+		// 3a : demi-plan derrière la coupe ; la coupe traverse de bas gauche à haut droit.
+		function cheminTraverse(g, t) {
+			var cx = g.W / 2 + g.n[0] * t, cy = g.H / 2 + g.n[1] * t;
+			var M = g.M, D = 2 * g.L;
+			return "path('M " + pt(g, cx, cy, -M, y(g, -M)) + arc(g, 1) + pt(g, cx, cy, M, y(g, M)) +
+				" L " + pt(g, cx, cy, M, -D) + " L " + pt(g, cx, cy, -M, -D) + " Z')";
+		}
+		// 3b : bande centrée sur la coupe, de demi-largeur w, tracée jusqu'à xe.
+		function cheminFente(g, xe, w) {
+			var cx = g.W / 2, cy = g.H / 2, xs = -g.M;
+			return "path('M " + pt(g, cx, cy, xs, y(g, xs) + w) + arc(g, 1) + pt(g, cx, cy, xe, y(g, xe) + w) +
+				" L " + pt(g, cx, cy, xe, y(g, xe) - w) + arc(g, 0) + pt(g, cx, cy, xs, y(g, xs) - w) + " Z')";
+		}
+
+		function images() {
+			var W = innerWidth, H = innerHeight, f = ease();
+			var k = CAMBRURES[etat.c][0], rot = ROTATIONS[etat.r][0];
+			var N = 48, out = [];
+			for (var i = 0; i <= N; i++) {
+				var tps = i / N;
+				var theta = rot === "fixe" ? (DEG * Math.PI) / 180 : rot === "pivot" ? ((-DEG + 2 * DEG * f(tps)) * Math.PI) / 180 : 0;
+				var g = geom(W, H, k, theta);
+				var cp;
+				if (etat.v === "coupe-balayage") {
+					var p = f(tps);
+					cp = cheminTraverse(g, -g.e - 2 + p * (2 * g.e + g.s + 4));
+				} else {
+					// Deux temps, chacun sur la courbe unique : la coupe file (40 %),
+					// puis la page s'ouvre de part et d'autre (60 %).
+					var A = 0.4, w0 = 1.5;
+					if (tps <= A) cp = cheminFente(g, -g.L / 2 - 2 + f(tps / A) * (g.L / 2 + 2 + g.M), w0);
+					else cp = cheminFente(g, g.M, w0 + f((tps - A) / (1 - A)) * (g.e + g.s + 4));
+				}
+				out.push({ clipPath: cp });
+			}
+			return out;
+		}
+
+		afficher();
+
+		if (!window.__pTransition) {
+			window.__pTransition = 1;
+			document.addEventListener("astro:before-swap", function (ev) {
+				poser(ev.newDocument);
+				if (etat.v.indexOf("coupe") !== 0 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+				var frames = images();
+				ev.viewTransition.ready.then(function () {
+					document.documentElement.animate(frames, {
+						duration: duree(),
+						easing: "linear",
+						fill: "both",
+						pseudoElement: "::view-transition-new(root)",
+					});
+				});
+			});
+			document.addEventListener("astro:after-swap", afficher);
+			document.addEventListener("click", function (e) {
+				var b = e.target.closest && e.target.closest("#pt-bar button");
+				if (b) agir(b.dataset.a);
+			});
+			document.addEventListener("keydown", function (e) {
+				var t = e.target;
+				if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+				if (e.metaKey || e.ctrlKey || e.altKey) return;
+				var m = { ArrowRight: "next", ArrowLeft: "prev", c: "cambrure", C: "cambrure", r: "rotation", R: "rotation", l: "ralenti", L: "ralenti" };
+				if (m[e.key]) agir(m[e.key]);
+			});
+		}
+	})();
+</script>

@@ -5,6 +5,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Seo from "../components/Seo.astro";
 import PrototypeCombine from "../components/PrototypeCombine.astro"; /* PROTOTYPE — à jeter */
+import PrototypeTransition from "../components/PrototypeTransition.astro"; /* PROTOTYPE — à jeter */
 
 interface Props {
 	title: string;
@@ -42,6 +43,7 @@ const chrome = registre === "galerie" ? "#f4f1ea" : "#0b0d0e";
 		</main>
 		<Footer />
 		{import.meta.env.DEV && <PrototypeCombine />}
+		{import.meta.env.DEV && <PrototypeTransition />}
 
 		<script is:inline>
 			// Le site navigue en client : tout ce qui suit doit être rejouable à
